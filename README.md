@@ -2,6 +2,11 @@
 
 This app generates the current landing page at explaain.com
 
+## Still To Do
+
+- Three analytics tracking codes (migrate!)
+
+
 ---
 # Old Readme Info
 
