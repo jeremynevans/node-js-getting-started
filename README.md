@@ -1,4 +1,11 @@
-# node-js-getting-started
+# Explaain Landing Page
+
+This app generates the current landing page at explaain.com
+
+---
+# Old Readme Info
+
+
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).
 
