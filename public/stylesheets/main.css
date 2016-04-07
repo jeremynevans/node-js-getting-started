@@ -117,23 +117,36 @@ section, section.epanel {
 	/*background-color: #ff6e73;*/
 }
 
+.intro-header .panel-1 {
+  max-width: 1100px;
+  line-height: 1.3;
+  padding-bottom: 30px;
+}
+
+.intro-header .epanel.panel-2 {
+  padding-bottom: 50px;
+}
+
 .panel-2, .panel-3 {
 	max-width: 500px;
+  padding-bottom: 0;
 }
 
 .panel-table {
 	width: 100%;
 	margin: auto;
-	max-width: 1000px;
+	max-width: 1100px;
 }
 
+
 .panel-2 ul {
+  margin-top: 30px;
 	padding: 0;
 }
 
 .panel-2 ul li {
 	list-style: none;
-	margin: 1.2em 0;
+	margin: 0.8em 0;
 }
 
 .panel-2 h3, .panel-3 h3 {
@@ -167,6 +180,29 @@ i.fa {
 	color: #ff6e73;
 	background-color: white;
 	border: 2px solid #ff6e73;
+}
+
+.demo-video {
+  overflow:hidden;
+  display:block;
+  height:500px;
+  width: 304px;
+  margin: auto;
+  border-top-left-radius: 43px;
+  border-top-right-radius: 43px;
+  border: 30px solid #ff6e73;
+  border: none;
+  z-index: 10000;
+  position: relative;
+  border-bottom: none;
+  opacity: 1;
+}
+
+.demo-video video {
+  height:501px;
+  position: relative;
+  left: -2px;
+  top: 0px;
 }
 
 .panel-media {
@@ -341,7 +377,7 @@ footer a, footer a:hover {
 	}
 
 	.panel-2 ul li {
-		margin: 2em 0;
+		margin: 1.2em 0;
 	}
 
 	h2.logo {
@@ -384,7 +420,7 @@ footer a, footer a:hover {
 	}
 
 	.intro-header {
-		padding-top: 3em;
+		padding-top: 2em;
 	}
 
 	.bullet-table {
@@ -428,7 +464,7 @@ footer a, footer a:hover {
 	}
 
 	.logo {
-		margin: 0;
+		margin: 0 0 10px 0;
 	}
 
 	#mc_embed_signup_scroll input#mce-EMAIL {

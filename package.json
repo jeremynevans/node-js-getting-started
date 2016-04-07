@@ -4,12 +4,16 @@
   "description": "A sample Node.js app using Express 4",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build-css": "node-sass --include-path scss views/scss/main1.scss   public/css/main1.css"
   },
   "dependencies": {
     "ejs": "2.3.3",
     "express": "4.13.3",
-    "cool-ascii-faces": "~1.3.x"
+    "cool-ascii-faces": "~1.3.x",
+    "node-sass": "3.4.2",
+    "gulp-sass": "^2.2.0",
+    "nodemon": "^1.9.1"
   },
   "engines": {
     "node": "0.12.7"
