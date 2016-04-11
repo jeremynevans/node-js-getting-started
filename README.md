@@ -2,9 +2,7 @@
 
 This app generates the current landing page at explaain.com
 
-## Still To Do
-
-- Three analytics tracking codes (migrate!)
+Forked from [heroku/node-js-getting-started](https://github.com/heroku/node-js-getting-started) (Old Readme contents below)
 
 
 ---
