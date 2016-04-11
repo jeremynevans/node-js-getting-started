@@ -1,3 +1,4 @@
+require('newrelic');
 var cool = require('cool-ascii-faces');
 // var sass = require('node-sass');
 var express = require('express');
