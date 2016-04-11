@@ -1,8 +1,8 @@
 {
-  "name": "Node.js Getting Started",
-  "description": "A barebones Node.js app using Express 4",
-  "repository": "https://github.com/heroku/node-js-getting-started",
+  "name": "Explaain",
+  "description": "News, but how your mind works",
+  "repository": "https://github.com/jeremynevans/explaain-landing",
   "logo": "http://node-js-sample.herokuapp.com/node.svg",
-  "keywords": ["node", "express", "static"],
+  "keywords": ["Explaain", "news", "current affairs", "interactive", "news tutor", "issue", "politics", "facts", "learn news", "teach news", "article", "mind map", "fact check"],
   "image": "heroku/nodejs"
 }
