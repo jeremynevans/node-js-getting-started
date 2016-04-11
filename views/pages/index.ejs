@@ -52,12 +52,28 @@
           </div>
           <div class="epanel panel-3">
             <div class="demo-video">
-              <video autoplay loop muted height="501" poster="img/demo.png">
+              <!-- <video autoplay loop muted height="501" poster="img/demo.png">
                 <source src="video/demo.mov">
-                  <!-- <source src="movie.ogg" type="video/ogg"> -->
-                  Your browser does not support the video tag.
-                </video>
-              </div>
+                <source src="img/demo.png" type="image/png">
+                Your browser does not support the video tag.
+              </video> -->
+              <!-- first try HTML5 playback: if serving as XML, expand `controls` to `controls="controls"` and autoplay likewise -->
+              <!-- warning: playback does not work on iOS3 if you include the poster attribute! fixed in iOS4.0 -->
+              <video autoplay loop muted width="306" height="501" poster="img/demo.png">
+              	<!-- MP4 must be first for iPad! -->
+                <source src="video/demo.mov">
+              	<source src="video/demo.mp4" type="video/mp4" /><!-- Safari / iOS video    -->
+              	<source src="video/demo.ogg" type="video/ogg" /><!-- Firefox / Opera / Chrome10 -->
+              	<!-- fallback to Flash: -->
+              	<object width="306" height="501" type="application/x-shockwave-flash" data="video/demo.swf">
+              		<!-- Firefox uses the `data` attribute above, IE/Safari uses the param below -->
+              		<param name="movie" value="demo.swf" />
+              		<param name="flashvars" value="controlbar=over&amp;image=img/demo.jpg&amp;file=video/demo.mp4" />
+              		<!-- fallback image. note the title field below, put the title of the video there -->
+              		<img src="img/demo.jpg" width="306" height="501" alt="Explaain Demo" />
+              	</object>
+              </video>
+            </div>
 
               <!-- <div class="social-logos">
               <a href="https://twitter.com/explaain" target="_blank">
