@@ -17,8 +17,11 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/cool', function(request, response) {
-  response.send(cool());
+app.get('/hello.html', function(request, response) {
+  response.writeHead(301, {
+    'Location': '/'
+  });
+  response.end();
 });
 
 app.listen(app.get('port'), function() {
