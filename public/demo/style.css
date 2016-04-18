@@ -84,11 +84,11 @@ h2 {
   color: #333;
 }
 
-.body-content a:hover {
+/*.body-content a:hover {
   color: white;
   background: #ff6e73;
   border: 2px solid #ff6e73;
-}
+}*/
 
 .card-spacer {
   height: 0;
