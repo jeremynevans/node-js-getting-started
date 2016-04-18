@@ -48,7 +48,7 @@ var open = function(cardDOM) {
       $(this).css('z-index',newZIndex);
     });
     cardDOM.find('.card-visible').css({ 'z-index': 10, 'width': cardDOM.find('.card-spacer').css('width') });
-    $('html,body').animate({scrollTop: cardDOM.offset().top - 50},'slow');
+    $('html,body').animate({scrollTop: cardDOM.offset().top - 80},'slow');
 }
 
 var createAndOpen = function(cardKey, openerCard, showHeaderImage) {
@@ -63,18 +63,19 @@ var createAndOpen = function(cardKey, openerCard, showHeaderImage) {
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
     open(cardDOM);
-    $('html,body').animate({scrollTop: cardDOM.offset().top - 150},'slow');
   }, 100);
 }
 
-$(".cards").on("click", "a", function(e){
+$(".cards").on("click", "a", function(){
   var cardToOpen = $(this).attr('href').substring(1);
   createAndOpen(cardToOpen, $(this).parents('.card')[0]);
-  e.stopPropagation();
 });
 
 $(".cards").on("click", ".card", function(){
-  open($(this));
+  var $target = $(event.target);
+  if(!$target.is("a") ) {
+    open($(this));
+  }
 });
 
 $( window ).resize(function() {

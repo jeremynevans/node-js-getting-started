@@ -18,6 +18,8 @@ body {
 .card .card-spacer {
   position: relative;
   z-index: -100;
+  margin: 10px 0;
+  /*border: solid red 2px;*/
 }
 
 .card .card-visible {
