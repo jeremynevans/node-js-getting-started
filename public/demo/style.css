@@ -1,0 +1,95 @@
+body {
+  padding: 80px 20px;
+  background: #ddd;
+  font-family: Lato;
+  color: #333;
+}
+
+.cards {
+  margin: 0 auto;
+    width: 370px;
+}
+
+.card .card-visible, .card .card-spacer {
+  -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
+  transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
+}
+
+.card .card-spacer {
+  position: relative;
+  z-index: -100;
+  margin: 10px;
+}
+
+.card .card-visible {
+  position: absolute;
+  transform: scale(1,1);
+  width: 330px;
+  margin: 0 10px;
+  border-radius: 15px;
+  overflow: hidden;
+  opacity: 1;
+  background: white;
+}
+
+.card.closed .card-visible {
+  transform: scale(0,0);
+  /*height: 0;*/
+  opacity: 0;
+}
+
+.card.faded .card-visible {
+  /*z-index: -1;*/
+  transform: scale(0.95,0.95);
+  /*margin-top: 15px;*/
+  opacity: 0.4;
+}
+
+.header-image {
+  height: 150px;
+  background: rgba(0,0,0,0.2);
+}
+
+.header-image img {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.header-image h3 {
+  position: relative;
+  margin-top: -35px;
+  margin-left: 20px;
+  text-transform: uppercase;
+  color: white;
+}
+
+h2 {
+  padding: 0 20px;
+  font-size: 20px;
+}
+
+.body-content {
+  padding: 0 20px;
+  line-height: 1.9;
+}
+
+.body-content a {
+  padding: 0 3px;
+  background: #ebebeb;
+  border: 2px solid #ebebeb;
+  text-decoration: none;
+  color: #333;
+}
+
+.body-content a:hover {
+  color: white;
+  background: #ff6e73;
+  border: 2px solid #ff6e73;
+}
+
+.card-spacer {
+  height: 0;
+}

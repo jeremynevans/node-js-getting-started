@@ -17,6 +17,11 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+/* Temporary? */
+app.get('/demo', function(request, response) {
+  response.render('pages/demo');
+});
+
 app.get('/hello.html', function(request, response) {
   response.writeHead(301, {
     'Location': '/'
