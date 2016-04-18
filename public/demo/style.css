@@ -32,6 +32,20 @@ body {
   background: white;
 }
 
+.card .card-grey {
+  z-index: 20;
+  position: absolute;
+  float: left;
+  height: 100%;
+  width: 100%;
+  background: rgba(221,221,221,0);
+  pointer-events: none;
+}
+
+.card.faded .card-grey {
+  /*background: rgba(221,221,221,0.4);*/
+}
+
 .card.closed .card-visible {
   transform: scale(0,0);
   /*height: 0;*/

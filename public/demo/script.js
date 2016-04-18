@@ -16,28 +16,29 @@ var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   if (!image) {
     image = 'https://pixabay.com/static/uploads/photo/2015/12/29/13/13/drone-1112752_960_720.jpg';
   }
-  var template = '<div class="card closed">' // style="margin-top: -130px;">'
-  +                '<div class="card-visible">';
+  var template =  '<div class="card closed">' // style="margin-top: -130px;">'
+  +                 '<div class="card-visible">'
+  +                   '<div class="card-grey"></div>';
   if (showHeaderImage) {
-    template +=  '<div class="header-image">'
-            +      '<img src="' + image + '">'
-            +      '<h3>'
-            +        topic
-            +      '</h3>'
-            +    '</div>';
+    template +=       '<div class="header-image">'
+              +         '<img src="' + image + '">'
+              +         '<h3>'
+              +           topic
+              +         '</h3>'
+              +       '</div>';
   };
-  template +=  '<h2>'
-          +       title
-          +       '</h2>'
-          +       '<div class="body-content">'
-          +         '<p>'
-          +           body.replace(/\s/g,' ')
-          +         '</p>'
-          +       '</div>'
-          +     '</div>'
-          +     '<div class="card-spacer"></div>'
-          +   '</div>';
-    return template;
+  template +=         '<h2>'
+              +         title
+              +       '</h2>'
+              +       '<div class="body-content">'
+              +         '<p>'
+              +           body.replace(/\s/g,' ')
+              +         '</p>'
+              +       '</div>'
+              +     '</div>'
+              +     '<div class="card-spacer"></div>'
+              +   '</div>';
+  return template;
 };
 
 var open = function(cardDOM) {
