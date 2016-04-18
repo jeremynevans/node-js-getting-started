@@ -7,7 +7,7 @@ body {
 
 .cards {
   margin: 0 auto;
-    width: 370px;
+  max-width: 370px;
 }
 
 .card .card-visible, .card .card-spacer {
@@ -18,14 +18,12 @@ body {
 .card .card-spacer {
   position: relative;
   z-index: -100;
-  margin: 10px;
 }
 
 .card .card-visible {
   position: absolute;
   transform: scale(1,1);
-  width: 330px;
-  margin: 0 10px;
+  max-width: 350px;
   border-radius: 15px;
   overflow: hidden;
   opacity: 1;
@@ -84,11 +82,11 @@ h2 {
   color: #333;
 }
 
-/*.body-content a:hover {
+.body-content a:active {
   color: white;
   background: #ff6e73;
   border: 2px solid #ff6e73;
-}*/
+}
 
 .card-spacer {
   height: 0;

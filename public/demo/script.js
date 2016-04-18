@@ -1,19 +1,4 @@
-var cards;
-// cards = [
-//   {
-//     title: '',
-//     body: '<a href="#6">The FBI</a> <a href="#7">announced on 22 March</a> it had partnered with an <a href="#8">unnamed third party</a> to gain access to the <a href="#9">iPhone</a> without <a href="#10">Apple\'s</a> help.',
-//     image: '',
-//     topic: ''
-//   },
-//   {
-//     title: '',
-//     body: 'The FBI has managed to hack into the iPhone of one of the San Bernadino gunmen without the help of Apple, who were refusing despite a court order.',
-//     image: 'sample1.png',
-//     topic: 'Apple vs FBI'
-//   }
-// ];
-var cardDOM;
+var cards, cardDOM;
 
 
 
@@ -62,7 +47,7 @@ var open = function(cardDOM) {
       var newZIndex = parseInt($(this).css('z-index')) - 1;
       $(this).css('z-index',newZIndex);
     });
-    cardDOM.find('.card-visible').css('z-index',10);
+    cardDOM.find('.card-visible').css({ 'z-index': 10, 'width': cardDOM.find('.card-spacer').css('width') });
     $('html,body').animate({scrollTop: cardDOM.offset().top - 50},'slow');
 }
 
@@ -90,4 +75,10 @@ $(".cards").on("click", "a", function(e){
 
 $(".cards").on("click", ".card", function(){
   open($(this));
+});
+
+$( window ).resize(function() {
+  $('.card').each(function() {
+    $(this).find('.card-visible').css({ 'width': $(this).find('.card-spacer').css('width') });
+  })
 });
