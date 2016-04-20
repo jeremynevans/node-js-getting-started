@@ -37,6 +37,7 @@ body {
 .card .card-visible {
   position: absolute;
   transform: scale(1,1);
+  width: 100%;
   max-width: 350px;
   border-radius: 15px;
   overflow: hidden;
@@ -117,5 +118,13 @@ h2 {
 }
 
 .card-spacer {
-  height: 0;
+  height: 100px;
+}
+
+@media (min-width: 568px) {
+  .body-content a:hover {
+    color: white;
+    background: #ff6e73;
+    border: 2px solid #ff6e73;
+  }
 }
