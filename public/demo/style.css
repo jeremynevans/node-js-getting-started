@@ -119,3 +119,11 @@ h2 {
 .card-spacer {
   height: 0;
 }
+
+@media (min-width: 568px) {
+  .body-content a:hover {
+    color: white;
+    background: #ff6e73;
+    border: 2px solid #ff6e73;
+  }
+}
