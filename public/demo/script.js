@@ -1,22 +1,27 @@
-var cards, cardDOM;
-
-
+var cards = {}; // object with key ids
+var cardLists = []; cardLists[0] = [];
+var focusPosition = [];
 
 $.doctop({
   url: 'https://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
   callback: function(d){
     console.dir(d);
-    cards = d.copy.archie.cards;
-    createAndOpen(0, null, true);
+    tempCards = d.copy.archie.cards;
+    openCard(0, null);
+    for (i=0; i<tempCards.length; i++) {
+      if (tempCards[i].id != "") {
+        cards[tempCards[i].id] = tempCards[i];
+      }
+    }
   }
 });
 
 var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   if (!image) {
-    image = 'https://pixabay.com/static/uploads/photo/2015/12/29/13/13/drone-1112752_960_720.jpg';
+    image = 'http://placekitten.com/300/200';
   }
-  var template =  '<div class="card closed">' // style="margin-top: -130px;">'
+  var template =  '<div class="card closed">'
   +                 '<div class="card-visible">'
   +                   '<div class="card-grey"></div>';
   if (showHeaderImage) {
@@ -41,7 +46,7 @@ var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   return template;
 };
 
-var open = function(cardDOM) {
+var focusOnCardDOM = function(cardDOM) {
   $('.card').addClass('faded');
   cardDOM.removeClass('faded closed');
     $('.card .card-visible').each(function() {
@@ -52,10 +57,10 @@ var open = function(cardDOM) {
     $('html,body').animate({scrollTop: cardDOM.offset().top - 80},'slow');
 }
 
-var createAndOpen = function(cardKey, openerCard, showHeaderImage) {
+var openCardDOM = function(cardKey, openerCard) {
   var card = cards[cardKey];
-  var template = cardTemplate('', card.body, card.image, card.topic, showHeaderImage);
-  var cardDom;
+  var template = cardTemplate(card.title, card.body, card.coverImage, card.topic, card.headline);
+  var cardDOM;
   if (openerCard) {
     cardDOM = $(template).insertAfter(openerCard);
   } else {
@@ -63,19 +68,52 @@ var createAndOpen = function(cardKey, openerCard, showHeaderImage) {
   }
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
-    open(cardDOM);
+    focusOnCard(cardDOM);
   }, 100);
 }
 
+var getPosition = function(cardDOM) {
+  return cardDOM.index();
+}
+
+var focusOnCard = function(cardDOM) {
+  focusPosition = [0, cardDOM.index()];
+  focusOnCardDOM(cardDOM);
+}
+
+var openCard = function(cardKey, openerCard) {
+  if (openerCard) {
+    var openPosition = getPosition(openerCard);
+    cardLists[0].splice(openPosition, 0, cards[cardKey]);
+  } else {
+    cardLists[0].push(cards[cardKey]);
+  }
+  openCardDOM(cardKey, openerCard);
+}
+
+var closeCard = function(cardToClose) {
+  var closePosition = getPosition(cardToClose);
+  cardLists[0].splice(closePosition, 1);
+}
+
+/* Watch Functions for cardLists */
+var onAdd = function(cardKey, insertPosition) {
+
+}
+var onRemove = function(cardKey) {
+
+}
+
+
 $(".cards").on("click", "a", function(){
   var cardToOpen = $(this).attr('href').substring(1);
-  createAndOpen(cardToOpen, $(this).parents('.card')[0]);
+  openCard(cardToOpen, $(this).parents('.card')[0]);
 });
 
 $(".cards").on("click", ".card", function(){
   var $target = $(event.target);
   if(!$target.is("a") ) {
-    open($(this));
+    focusOnCard($(this));
   }
 });
 
