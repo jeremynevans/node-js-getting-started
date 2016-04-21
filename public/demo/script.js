@@ -4,7 +4,7 @@ var focusPosition = [];
 var tempCards;
 
 $.doctop({
-  url: 'https://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
+  url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
   callback: function(d){
     console.dir(d);
