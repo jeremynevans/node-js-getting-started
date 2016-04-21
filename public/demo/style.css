@@ -71,6 +71,14 @@ body {
   opacity: 0.4;
 }
 
+.card .card-visible > i.close {
+  opacity: 0;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  color: #bbb;
+}
+
 .header-image {
   height: 150px;
   background: rgba(0,0,0,0.2);
@@ -125,5 +133,12 @@ h2 {
     color: white;
     background: #ff6e73;
     border: 2px solid #ff6e73;
+  }
+  .card .card-visible:hover > i.close {
+    opacity: 1;
+  }
+  .card .card-visible > i.close:hover {
+    color: #ff6e73;
+    cursor: pointer;
   }
 }

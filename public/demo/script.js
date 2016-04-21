@@ -1,6 +1,7 @@
 var cards = {}; // object with key ids
 var cardLists = []; cardLists[0] = [];
 var focusPosition = [];
+var tempCards;
 
 $.doctop({
   url: 'https://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
@@ -8,12 +9,12 @@ $.doctop({
   callback: function(d){
     console.dir(d);
     tempCards = d.copy.archie.cards;
-    openCard(0, null);
     for (i=0; i<tempCards.length; i++) {
       if (tempCards[i].id != "") {
         cards[tempCards[i].id] = tempCards[i];
       }
     }
+    openCard(0, null);
   }
 });
 
@@ -23,7 +24,8 @@ var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   }
   var template =  '<div class="card closed">'
   +                 '<div class="card-visible">'
-  +                   '<div class="card-grey"></div>';
+  +                   '<div class="card-grey"></div>'
+  +                   '<i class="fa fa-times close" aria-hidden="true"></i>';
   if (showHeaderImage) {
     template +=       '<div class="header-image">'
               +         '<img src="' + image + '">'
@@ -46,7 +48,8 @@ var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   return template;
 };
 
-var focusOnCardDOM = function(cardDOM) {
+var focusOnCardDOM = function(position) {
+  var cardDOM = $('.cards .card:eq(' + position + ')');
   $('.card').addClass('faded');
   cardDOM.removeClass('faded closed');
     $('.card .card-visible').each(function() {
@@ -57,63 +60,110 @@ var focusOnCardDOM = function(cardDOM) {
     $('html,body').animate({scrollTop: cardDOM.offset().top - 80},'slow');
 }
 
-var openCardDOM = function(cardKey, openerCard) {
+var openCardDOM = function(cardKey, list, positionFrom) {
   var card = cards[cardKey];
   var template = cardTemplate(card.title, card.body, card.coverImage, card.topic, card.headline);
   var cardDOM;
-  if (openerCard) {
+  if (positionFrom != -1) {
+    var openerCard = $('.cards .card:eq(' + positionFrom + ')');
     cardDOM = $(template).insertAfter(openerCard);
   } else {
     cardDOM = $(template).appendTo('.cards');
   }
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
-    focusOnCard(cardDOM);
+    focusOnCard(0, positionFrom + 1);
   }, 100);
 }
 
+var closeCardDOM = function(list, position) {
+  $('.cards .card:eq(' + (position) + ')').fadeOut();
+}
+
 var getPosition = function(cardDOM) {
-  return cardDOM.index();
+  console.log(cardDOM);
+  return $('.card').index(cardDOM);
 }
 
-var focusOnCard = function(cardDOM) {
-  focusPosition = [0, cardDOM.index()];
-  focusOnCardDOM(cardDOM);
+var focusOnCard = function(list, position) {
+  focusPosition[list] = position;
+  focusOnCardDOM(position);
 }
 
-var openCard = function(cardKey, openerCard) {
-  if (openerCard) {
-    var openPosition = getPosition(openerCard);
-    cardLists[0].splice(openPosition, 0, cards[cardKey]);
-  } else {
-    cardLists[0].push(cards[cardKey]);
+var openCard = function(cardToOpen, positionFrom) {
+
+  if (positionFrom == null || positionFrom < 0) {
+    positionFrom = cardLists[0].length - 1;
   }
-  openCardDOM(cardKey, openerCard);
+  cardInsert(cardToOpen, positionFrom);
+  openCardDOM(cardToOpen, 0, positionFrom);
 }
 
 var closeCard = function(cardToClose) {
   var closePosition = getPosition(cardToClose);
-  cardLists[0].splice(closePosition, 1);
-}
-
-/* Watch Functions for cardLists */
-var onAdd = function(cardKey, insertPosition) {
+  cardSplice(0, closePosition, 1);
 
 }
-var onRemove = function(cardKey) {
+
+
+var cardInsert = function(cardToOpen, positionFrom) {
+  var existingCard = cardLists[0].indexOf(cardToOpen);
+  console.log(existingCard);
+  if (existingCard == -1) {
+    cardSplice(0,positionFrom + 1, 0, cardToOpen);
+  } else {
+    cardMove(0, existingCard, positionFrom + 1);
+  }
+}
+
+
+/* Explaain Card Array Functions */
+
+var cardMove = function(list, moveFrom, moveTo) { /* Only works for splicing one item into array */
+  var key = cardLists[list][moveFrom];
+  console.log(moveFrom, moveTo);
+  cardSplice(list, moveFrom, 1);
+  if (moveTo > moveFrom) {
+    moveTo--; //Adjust moveTo to reflect the fact that moveFrom has been remove and the array is now shorter
+    console.log(moveFrom, moveTo);
+  }
+  cardSplice(list, moveTo, 0, key);
+
+}
+var cardPush = function(list, key) { // Not currently in use
+  cardLists[list].push(key);
+
+}
+var cardSplice = function(list, pos, remove, key) { /* Only works for splicing one item into array */
+  if (key == undefined) {
+    cardLists[list].splice(pos, remove);
+    for (var i = 0; i < remove; i++) {
+      if (focusPosition[list] == pos+i) {
+        focusOnCard(list, pos-1);
+      }
+      closeCardDOM(list, pos+i);
+    }
+  } else {
+    cardLists[list].splice(pos, remove, key);
+  }
 
 }
 
 
 $(".cards").on("click", "a", function(){
-  var cardToOpen = $(this).attr('href').substring(1);
-  openCard(cardToOpen, $(this).parents('.card')[0]);
+  var cardToOpen = $(this).attr('href').substring(1); //Key of card to open
+  var position = getPosition($(this).parents('.card')[0]);
+  openCard(cardToOpen, position);
+});
+$(".cards").on("click", "i.close", function(){
+  var card = $(this).closest('.card');
+  closeCard(card);
 });
 
 $(".cards").on("click", ".card", function(){
   var $target = $(event.target);
   if(!$target.is("a") ) {
-    focusOnCard($(this));
+    focusOnCard(0, $('.card').index(this));
   }
 });
 
