@@ -18,11 +18,11 @@ $.doctop({
   }
 });
 
-var cardTemplate = function (title, body, image, topic, showHeaderImage) {
+var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
     image = 'http://placekitten.com/300/200';
   }
-  var template =  '<div class="card closed">'
+  var template =  '<div class="card closed" id="card-' + id + '">'
   +                 '<div class="card-visible">'
   +                   '<div class="card-grey"></div>'
   +                   '<i class="fa fa-times close" aria-hidden="true"></i>';
@@ -48,6 +48,26 @@ var cardTemplate = function (title, body, image, topic, showHeaderImage) {
   return template;
 };
 
+
+// These two functions not currently in use
+var getCardDataFromDOM = function() { //Doesn't yet support multiple lists
+  var existingCardList = [];
+  $('.card').each(function(i, card) {
+    existingCardList.push($(card).attr('id').split('-')[1]);
+  });
+  return existingCardList;
+}
+var updateCardDOM = function() { //Doesn't yet support multiple lists
+  var currentCardLists = [getCardDataFromDOM()]; // Should be called oldCardList?
+  cardLists[0].each(function(i, newCard) {
+    if (newCard != currentCardLists[i]) {
+
+    }
+  });
+}
+
+
+
 var focusOnCardDOM = function(position) {
   var cardDOM = $('.cards .card:eq(' + position + ')');
   $('.card').addClass('faded');
@@ -62,7 +82,7 @@ var focusOnCardDOM = function(position) {
 
 var openCardDOM = function(cardKey, list, positionFrom) {
   var card = cards[cardKey];
-  var template = cardTemplate(card.title, card.body, card.coverImage, card.topic, card.headline);
+  var template = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   var cardDOM;
   if (positionFrom != -1) {
     var openerCard = $('.cards .card:eq(' + positionFrom + ')');
@@ -85,50 +105,60 @@ var getPosition = function(cardDOM) {
   return $('.card').index(cardDOM);
 }
 
+// The following functions maniupalate data, then the DOM in subsequent functions
+var changeCardData = function(type, list, position1, position2) {
+  switch (type) {
+    case 'focus':
+      focusOnCard(list, position1);
+      break;
+    case 'open':
+      openCard(position1, position2);
+      break;
+    case 'close':
+      closeCard(position1);
+      break;
+  }
+  updateCardDOM();
+}
 var focusOnCard = function(list, position) {
   focusPosition[list] = position;
   focusOnCardDOM(position);
 }
-
 var openCard = function(cardToOpen, positionFrom) {
-
   if (positionFrom == null || positionFrom < 0) {
     positionFrom = cardLists[0].length - 1;
   }
+  var existingCard = cardLists[0].indexOf(cardToOpen);
+  if (existingCard == -1) {
+    cardInsert(cardToOpen, positionFrom + 1);
+    // cardInsertDOM();
+  } else {
+    cardMove(0, existingCard, positionFrom + 1);
+    // cardMoveDOM();
+  }
+  
   cardInsert(cardToOpen, positionFrom);
   openCardDOM(cardToOpen, 0, positionFrom);
 }
-
 var closeCard = function(cardToClose) {
   var closePosition = getPosition(cardToClose);
   cardSplice(0, closePosition, 1);
-
+  //DOM function here?
 }
 
 
-var cardInsert = function(cardToOpen, positionFrom) {
-  var existingCard = cardLists[0].indexOf(cardToOpen);
-  console.log(existingCard);
-  if (existingCard == -1) {
-    cardSplice(0,positionFrom + 1, 0, cardToOpen);
-  } else {
-    cardMove(0, existingCard, positionFrom + 1);
-  }
+var cardInsert = function(cardToOpen, positionFrom) { // Doesn't handle closing the card at the old position - this should already be handled
+  cardLists[list].splice(pos, remove, key);
 }
 
 
 /* Explaain Card Array Functions */
 
-var cardMove = function(list, moveFrom, moveTo) { /* Only works for splicing one item into array */
+var cardMove = function(list, moveFrom, moveTo) {
   var key = cardLists[list][moveFrom];
-  console.log(moveFrom, moveTo);
   cardSplice(list, moveFrom, 1);
-  if (moveTo > moveFrom) {
-    moveTo--; //Adjust moveTo to reflect the fact that moveFrom has been remove and the array is now shorter
-    console.log(moveFrom, moveTo);
-  }
+  if (moveTo > moveFrom) { moveTo--; } //Adjust moveTo to reflect the fact that moveFrom has been remove and the array is now shorter
   cardSplice(list, moveTo, 0, key);
-
 }
 var cardPush = function(list, key) { // Not currently in use
   cardLists[list].push(key);
@@ -146,10 +176,9 @@ var cardSplice = function(list, pos, remove, key) { /* Only works for splicing o
   } else {
     cardLists[list].splice(pos, remove, key);
   }
-
 }
 
-
+//UI Interaction
 $(".cards").on("click", "a", function(){
   var cardToOpen = $(this).attr('href').substring(1); //Key of card to open
   var position = getPosition($(this).parents('.card')[0]);
@@ -157,15 +186,14 @@ $(".cards").on("click", "a", function(){
 });
 $(".cards").on("click", "i.close", function(){
   var card = $(this).closest('.card');
-  closeCard(card);
+  closeCard($('.card').index(card));
 });
-
 $(".cards").on("click", ".card", function(){
-  var $target = $(event.target);
-  if(!$target.is("a") ) {
+  if(!$(event.target).is("a") ) {
     focusOnCard(0, $('.card').index(this));
   }
 });
+
 
 $( window ).resize(function() {
   $('.card').each(function() {
