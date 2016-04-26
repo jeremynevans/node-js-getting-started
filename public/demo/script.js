@@ -24,7 +24,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   }
   var template =  '<div class="card closed" id="card-' + id + '">'
   +                 '<div class="card-visible">'
-  +                   '<div class="card-grey"></div>'
+  +                   '<div class="card-grey"><div></div></div>'
   +                   '<i class="fa fa-times close" aria-hidden="true"></i>';
   if (showHeaderImage) {
     template +=       '<div class="header-image">'
