@@ -3,6 +3,9 @@ var cardLists = []; cardLists[0] = [];
 var focusPosition = [];
 var tempCards;
 
+
+// Should .removed and .closed be the same thing?
+
 $.doctop({
   url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
@@ -85,12 +88,12 @@ var addCardDOM = function(list, cardKey, position) {
     cardDOM = $(template).appendTo('.cards');
   }
   window.setTimeout(function() {
-    cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
+    // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
     // focusCard(0, position);
   }, 100);
 }
 var removeCardDOM = function(list, position) {
-  $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(300, function() { $(this).remove(); }); // Needs to change height gradually
+  $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(500, function() { $(this).remove(); }); // Needs to change height gradually
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
   var key = getKeyFromCardDOM(list, moveFrom);
@@ -122,9 +125,14 @@ var openCard = function(cardToOpen, positionFrom) {
     focusCard(0, positionFrom + 1);
 }
 var closeCard = function(list, cardPos) {
+  console.log(focusPosition[list], cardPos, cardLists[list].length);
   removeCard(list, cardPos);
   if (focusPosition[list] == cardPos) {
-    focusCard(list, cardPos-1);
+    if (cardPos == cardLists[list].length) {
+      focusCard(list, cardPos-1);
+    } else {
+      focusCard(list, cardPos);
+    }
   }
 }
 
