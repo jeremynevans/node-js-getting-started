@@ -105,6 +105,7 @@ var getPosition = function(cardDOM) {
   return $('.card').index(cardDOM);
 }
 
+
 // The following functions maniupalate data, then the DOM in subsequent functions
 var changeCardData = function(type, list, position1, position2) {
   switch (type) {
@@ -136,7 +137,7 @@ var openCard = function(cardToOpen, positionFrom) {
     cardMove(0, existingCard, positionFrom + 1);
     // cardMoveDOM();
   }
-  
+
   cardInsert(cardToOpen, positionFrom);
   openCardDOM(cardToOpen, 0, positionFrom);
 }
