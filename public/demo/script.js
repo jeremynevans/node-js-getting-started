@@ -51,26 +51,26 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
 
 // DOM Requests
 var getKeyFromCardDOM = function(list, pos) { // Doesn't select list yet
-  return $('.cards .card:eq(' + pos + ')').attr('id').split('-')[1];
+  return $('.cards .card:not(.removed):eq(' + pos + ')').attr('id').split('-')[1];
 }
 var getPosition = function(cardDOM) {
-  // console.log(cardDOM);
-  return $('.card').index(cardDOM);
+  return $('.card:not(.removed)').index(cardDOM);
 }
 
 
 
 // Manipulate Card DOM
 var focusCardDOM = function(position) {
-  var cardDOM = $('.cards .card:eq(' + position + ')');
+  var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
   $('.card').addClass('faded');
   cardDOM.removeClass('faded closed');
   $('.card .card-visible').each(function() {
     var newZIndex = parseInt($(this).css('z-index')) - 1;
     $(this).css('z-index',newZIndex);
   });
-  cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') });
-  $('html,body').animate({scrollTop: cardDOM.offset().top - 80},'slow');
+  console.log(cardDOM.find('.card-spacer').css('width'));
+  // cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure if still necessary?
+  $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
 }
 var addCardDOM = function(list, cardKey, position) {
@@ -78,8 +78,8 @@ var addCardDOM = function(list, cardKey, position) {
   var card = cards[cardKey];
   var template = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   var cardDOM;
-  if (position != -1 && $('.card').length) { //Doesn't yet handle multiple lists
-    var openerCard = $('.cards .card:eq(' + (position-1) + ')');
+  if (position != -1 && $('.card:not(.removed)').length) { //Doesn't yet handle multiple lists
+    var openerCard = $('.cards .card:not(.removed):eq(' + (position-1) + ')');
     cardDOM = $(template).insertAfter(openerCard);
   } else {
     cardDOM = $(template).appendTo('.cards');
@@ -90,17 +90,16 @@ var addCardDOM = function(list, cardKey, position) {
   }, 100);
 }
 var removeCardDOM = function(list, position) {
-  $('.cards .card:eq(' + (position) + ')').fadeOut(); // Needs to change height gradually
+  $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(300, function() { $(this).remove(); }); // Needs to change height gradually
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
   var key = getKeyFromCardDOM(list, moveFrom);
   console.log(key, moveFrom, moveTo);
-  removeCardDOM(0, moveFrom);
-  if (moveTo > moveFrom) { moveTo--; } //Adjusts moveTo to reflect the fact that moveFrom has been remove and the array is now shorter
   addCardDOM(0, key, moveTo);
+  removeCardDOM(0, moveFrom); // moveFrom has already been adjusted and passed here from moveCard function
 }
 var setZValues = function() { // Doesn't yet handle multiple lists
-  $('.card').each(function(i, card) {
+  $('.card:not(.removed)').each(function(i, card) {
     var zValue = 1000 - Math.abs(i - focusPosition[0]);
     var zScale = 1 - Math.pow(0.6, Math.abs(i - focusPosition[0]));
     console.log(zScale);
@@ -131,10 +130,12 @@ var closeCard = function(list, cardPos) {
 
 // Specific Card Functions that trigger, and correspond to, DOM Functions
 var focusCard = function(list, position) {
-  focusPosition[list] = position;
-  window.setTimeout(function() {
-    focusCardDOM(position);
-  }, 10);
+  if (position >= 0 && position < cardLists[list].length) {
+    focusPosition[list] = position;
+    window.setTimeout(function() {
+      focusCardDOM(position);
+    }, 10);
+  }
 }
 var addCard = function(list, cardKeyToOpen, position) {
   insertCard(list, cardKeyToOpen, position);
@@ -146,9 +147,9 @@ var removeCard = function(list, pos) {
 }
 var moveCard = function(list, moveFrom, moveTo) {
   var key = cardLists[list][moveFrom];
-  deleteCard(list, moveFrom);
-  if (moveTo > moveFrom) { moveTo--; } //Adjusts moveTo to reflect the fact that moveFrom has been remove and the array is now shorter
   insertCard(list, key, moveTo);
+  if (moveTo < moveFrom) { moveFrom++; } //Adjusts moveFrom to reflect the fact that moveTo has been inserted and pushed subsquent elements forward
+  deleteCard(list, moveFrom);
   moveCardDOM(0, moveFrom, moveTo);
 }
 
@@ -170,13 +171,37 @@ $(".cards").on("click", "a", function(){
 });
 $(".cards").on("click", "i.close", function(){
   var card = $(this).closest('.card');
-  closeCard(0, $('.card').index(card));
+  closeCard(0, getPosition(card));
 });
 $(".cards").on("click", ".card", function(){
   if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
-    focusCard(0, $('.card').index(this));
+    focusCard(0, getPosition(this));
   }
 });
+
+
+$(document).keydown(function(e) {
+    switch(e.which) {
+        case 37: // left
+        break;
+
+        case 38: // up
+        focusCard(0, focusPosition[0]-1);
+        break;
+
+        case 39: // right
+        break;
+
+        case 40: // down
+        focusCard(0, focusPosition[0]+1);
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+});
+
+
 $('.cards').on("click", function() {
   printCards();
 });
