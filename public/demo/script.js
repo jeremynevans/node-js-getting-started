@@ -4,8 +4,6 @@ var focusPosition = [];
 var tempCards;
 
 
-// Should .removed and .closed be the same thing?
-
 $.doctop({
   url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
@@ -27,8 +25,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   }
   var template =  '<div class="card closed" id="card-' + id + '">'
   +                 '<div class="card-visible">'
-  +                   '<div class="card-grey"><div></div></div>'
-  +                   '<i class="fa fa-times close" aria-hidden="true"></i>';
+  +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
     template +=       '<div class="header-image">'
               +         '<img src="' + image + '">'
@@ -37,7 +34,8 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
               +         '</h3>'
               +       '</div>';
   } else {
-    template +=       '<h2>'
+    template +=       '<i class="fa fa-times close" aria-hidden="true"></i>'
+    +                 '<h2>'
               +         title
               +       '</h2>'
   };
