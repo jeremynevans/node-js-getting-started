@@ -2,24 +2,36 @@ var cards = {}; // object with key ids
 var cardLists = []; cardLists[0] = [];
 var focusPosition = [];
 var tempCards;
+var waitingForDoctop = true;
 
-
-// Should .removed and .closed be the same thing?
+console.log('hi');
 
 $.doctop({
   url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
   callback: function(d){
-    console.dir(d);
-    tempCards = d.copy.archie.cards;
-    for (i=0; i<tempCards.length; i++) {
-      if (tempCards[i].id != "") {
-        cards[tempCards[i].id] = tempCards[i];
+    if (waitingForDoctop) {
+      waitingForDoctop = false;
+      console.dir(d);
+      tempCards = d.copy.archie.cards;
+      for (i=0; i<tempCards.length; i++) {
+        if (tempCards[i].id != "") {
+          cards[tempCards[i].id] = tempCards[i];
+        }
       }
+      openCard(0, null);
     }
-    openCard(0, null);
   }
 });
+
+window.setTimeout(function() {
+  if (waitingForDoctop) {
+    waitingForDoctop = false;
+    console.log('Doctop not loaded - using backup data...');
+    cards = {"0":{"id":"0","topic":"Heathrow Drone","title":"Drone hits Heathrow plane","body":"<a href=\"#1\">A British Airways flight from Geneva</a> is <a href=\"#2\">believed to have hit a drone</a> before <a href=\"#8\">landing safely at Heathrow</a> airport, raising <a href=\"#3\">concerns over aviation safety</a>.","headline":"true","coverImage":"https://pixabay.com/static/uploads/photo/2015/12/29/13/13/drone-1112752_960_720.jpg","draftOrAuthor":"yukiko"},"1":{"id":"1","topic":"Heathrow Drone","title":"A British Airways flight","body":"The flight BA727 from Geneva to Heathrow was carrying 132 passengers and 5 crew. <a href=\"#5\">The Airbus A320</a> plane <a href=\"#7\">was cleared to take off the next flight after being examined</a>.","draftOrAuthor":"yukiko"},"2":{"id":"2","topic":"Heathrow Drone","title":"Believed to have hit a drone","body":"The pilot reported an object that is believed to be a drone struck the front of <a href=\"#1\">the flight</a>, and it would be the first incident of its kind in the UK if confirmed. \n        <a href=\"#6\">The investigation is underway</a>.","draftOrAuthor":"yukiko"},"3":{"id":"3","topic":"Drone and aviation safety","title":"Concerns over aviation safety and drone","body":"<a href=\"#10\">Pilots have called for an investigation</a> into the likely effects of <a href=\"#9\">a drone strike on an aircraft</a> last month, following <a href=\"#4\">a report on their near-misses</a>.","draftOrAuthor":"yukiko"},"4":{"id":"4","topic":"Drone and aviation safety","title":"Report by the UK Airpox Board","body":"There were 23 near-misses between drones and aircraft in the 6 months between April and October last year.","draftOrAuthor":"yukiko"},"5":{"id":"5","topic":"Heathrow Drone","title":"Airbus A320 family","body":"The A320 manufactured by Airbus typically seats 150 passengers in a two-class cabin, and is commonly used by commercial flights.","draftOrAuthor":"yukiko"},"6":{"id":"6","topic":"Heathrow Drone","title":"Investigation on ‘drone’ claim","body":"Police says no arrests have been made. \n        The British Airline will give the police “every assistance with their investigation”.","draftOrAuthor":"yukiko"},"7":{"id":"7","topic":"Heathrow Drone","title":"Quote","body":"A British Airways spokesperson said: \n        “Our aircraft landed safely, was fully examined by our engineers and it was cleared to operate its next flight”.","draftOrAuthor":"yukiko"},"8":{"id":"8","topic":"Heathrow Drone","title":"Landing safely at Heathrow airport","body":"Despite a hit by an object, believed to be a drone, the flight with 132 passengers and 5 crew <a href=\"#7\">landed safely without damage to the aircraft</a>.","draftOrAuthor":"yukiko"},"9":{"id":"9","topic":"Drone and aviation safety","title":"Drone strike on aircraft","body":"<a href=\"#11\">People who fly drones</a> close to planes could be convicted of endangering aviation safety, which has a maximum prison sentence of five years, according to the Civil Aviation Authority.","draftOrAuthor":"yukiko"},"10":{"id":"10","topic":"Drone and aviation safety","title":"Pilots have called for an investigation","body":"The British Airline Pilots Association wants the Department for Transport and the Civil Aviation Authority to investigate into the effects of <a href=\"#9\">a drone strike on an aircraft</a>.","draftOrAuthor":"yukiko"},"11":{"id":"11","topic":"Drone and aviation safety","title":"People flying drones","body":"<a href=\"#12\">The Civil Aviation Authority is focusing on educating people</a> who use drones, fearing that many of them are not familiar with the legal issues.","draftOrAuthor":"yukiko"},"12":{"id":"12","topic":"Drone and aviation safety","title":"CAA and “dronecode”","body":"The Civil Aviation Authority launched Dronecode to simplify the rules over drones.","draftOrAuthor":"yukiko"}};
+    openCard(0, null);
+  }
+}, 3);
 
 var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
@@ -27,8 +39,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   }
   var template =  '<div class="card closed" id="card-' + id + '">'
   +                 '<div class="card-visible">'
-  +                   '<div class="card-grey"><div></div></div>'
-  +                   '<i class="fa fa-times close" aria-hidden="true"></i>';
+  +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
     template +=       '<div class="header-image">'
               +         '<img src="' + image + '">'
@@ -37,7 +48,8 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
               +         '</h3>'
               +       '</div>';
   } else {
-    template +=       '<h2>'
+    template +=       '<i class="fa fa-times close" aria-hidden="true"></i>'
+              +       '<h2>'
               +         title
               +       '</h2>'
   };
