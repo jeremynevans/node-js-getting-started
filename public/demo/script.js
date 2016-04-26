@@ -35,7 +35,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
               +       '</div>';
   } else {
     template +=       '<i class="fa fa-times close" aria-hidden="true"></i>'
-    +                 '<h2>'
+              +       '<h2>'
               +         title
               +       '</h2>'
   };
