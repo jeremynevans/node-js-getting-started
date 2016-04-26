@@ -45,18 +45,22 @@ body {
 }
 
 .card .card-grey {
+  display: none;
   z-index: 20;
   position: absolute;
   float: left;
   height: 100%;
   width: 100%;
-  background: rgba(221,221,221,0);
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
 .card.faded .card-grey {
-  /*background: rgba(221,221,221,0.4);*/
+  display: block;
+  background: rgba(221,221,221,0.4);
+  -webkit-transition: background 0.5s; /* Safari */
+  transition: background 0.5s;
 }
+
 
 .card.closed .card-visible {
   transform: scale(0,0);
@@ -66,9 +70,9 @@ body {
 
 .card.faded .card-visible {
   /*z-index: -1;*/
-  transform: scale(0.95,0.95);
+  /*transform: scale(0.95,0.95);*/
   /*margin-top: 15px;*/
-  opacity: 0.4;
+  /*opacity: 0.4;*/
 }
 
 .card .card-visible > i.close {
@@ -140,5 +144,11 @@ h2 {
   .card .card-visible > i.close:hover {
     color: #ff6e73;
     cursor: pointer;
+  }
+  .card.faded .card-visible:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
+    box-shadow: 0px 0px 5px 0px rgba(255,255,255,1);
   }
 }
