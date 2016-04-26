@@ -22,7 +22,7 @@ body {
   max-width: 350px;
 }
 
-.card .card-visible, .card .card-spacer {
+.card, .card .card-visible, .card .card-spacer {
   -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
   transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
 }
@@ -31,6 +31,7 @@ body {
   position: relative;
   z-index: -100;
   margin: 10px 0;
+  height: 120px;
   /*border: solid red 2px;*/
 }
 
@@ -153,5 +154,15 @@ h2 {
   }
   .card.faded .card-grey:hover > div {
     background: rgba(255,255,255,0.1);
+  }
+  .card.removed {
+    -moz-transform: scale(0.01);
+    -webkit-transform: scale(0.01);
+    -o-transform: scale(0.01);
+    -ms-transform: scale(0.01);
+    transform: scale(0.01);
+  }
+  .card.closed .card-spacer, .card.removed .card-spacer {
+    height: 0;
   }
 }
