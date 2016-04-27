@@ -85,7 +85,7 @@ var focusCardDOM = function(position) {
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
-
+  reDrawIfOutOfSync();
 }
 var addCardDOM = function(list, cardKey, position) {
   var card = cards[cardKey];
@@ -101,15 +101,18 @@ var addCardDOM = function(list, cardKey, position) {
     // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
     // focusCard(0, position);
   }, 100);
+  reDrawIfOutOfSync();
 }
 var removeCardDOM = function(list, position) {
   $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(500, function() { $(this).remove(); }); // Needs to change height gradually
+  reDrawIfOutOfSync();
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
   var key = getKeyFromCardDOM(list, moveFrom);
   addCardDOM(0, key, moveTo);
   var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
   removeCardDOM(0, newMoveFrom); // moveFrom has already been adjusted and passed here from moveCard function
+  reDrawIfOutOfSync();
 }
 var setZValues = function() { // Doesn't yet handle multiple lists
   $('.card:not(.removed)').each(function(i, card) {
@@ -218,9 +221,11 @@ $(document).keydown(function(e) {
 });
 
 var reDrawIfOutOfSync = function() {
-  if (!checkSync()) {
-    reDrawCards();
-  }
+  window.setTimeout(function() {
+    if (!checkSync()) {
+      reDrawCards();
+    }
+  }, 500);
 }
 var checkSync = function() {
   var inSync = true;
@@ -237,7 +242,7 @@ var checkSync = function() {
 }
 var reDrawCards = function() { // If DOM cards don't match card data then run this to sort everything out (currently just refocuses correctly)
   console.log('Something got out of sync so we\'re redrawing the cards in the DOM');
-  focusCardDOM(focusPosition[0]);
+  focusCard(0,focusPosition[0]);
 }
 
 
