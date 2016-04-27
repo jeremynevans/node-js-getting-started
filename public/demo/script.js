@@ -7,7 +7,7 @@ var waitingForDoctop = true;
 console.log('hi');
 
 $.doctop({
-  url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
+  url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
   callback: function(d){
     if (waitingForDoctop) {
@@ -35,7 +35,7 @@ window.setTimeout(function() {
 
 var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
-    image = 'http://placekitten.com/300/200';
+    image = '//placekitten.com/300/200';
   }
   var template =  '<div class="card closed" id="card-' + id + '">'
   +                 '<div class="card-visible">'
