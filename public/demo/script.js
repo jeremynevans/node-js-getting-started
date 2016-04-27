@@ -76,8 +76,8 @@ var getPosition = function(cardDOM) {
 var focusCardDOM = function(position) {
   // console.log('focusCardDOM', position);
   var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
-  $('.card').addClass('faded');
-  cardDOM.removeClass('faded opening');
+  $('.card').addClass('faded').removeClass('opening');
+  cardDOM.removeClass('faded');
   $('.card .card-visible').each(function() {
     var newZIndex = parseInt($(this).css('z-index')) - 1;
     $(this).css('z-index',newZIndex);
@@ -85,6 +85,7 @@ var focusCardDOM = function(position) {
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
+
 }
 var addCardDOM = function(list, cardKey, position) {
   var card = cards[cardKey];
@@ -215,6 +216,29 @@ $(document).keydown(function(e) {
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
 });
+
+var reDrawIfOutOfSync = function() {
+  if (!checkSync()) {
+    reDrawCards();
+  }
+}
+var checkSync = function() {
+  var inSync = true;
+  $('.card:not(.removed)').each(function(i, card) {
+    var focusedDOM = !$(card).hasClass('faded');
+    var focusedData = i == focusPosition[0];
+    var keyDOM = getKeyFromCardDOM(0,i);
+    var keyData = cardLists[0][i];
+    if (focusedDOM != focusedData || keyDOM != keyData) {
+      inSync = false;
+    }
+  });
+  return inSync;
+}
+var reDrawCards = function() { // If DOM cards don't match card data then run this to sort everything out (currently just refocuses correctly)
+  console.log('Something got out of sync so we\'re redrawing the cards in the DOM');
+  focusCardDOM(focusPosition[0]);
+}
 
 
 $('.cards').on("click", function() {
