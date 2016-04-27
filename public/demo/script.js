@@ -4,10 +4,8 @@ var focusPosition = [];
 var tempCards;
 var waitingForDoctop = true;
 
-console.log('hi');
-
 $.doctop({
-  url: 'http://docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
+  url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
   callback: function(d){
     if (waitingForDoctop) {
@@ -35,9 +33,9 @@ window.setTimeout(function() {
 
 var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
-    image = 'http://placekitten.com/300/200';
+    image = '//placekitten.com/300/200';
   }
-  var template =  '<div class="card closed" id="card-' + id + '">'
+  var template =  '<div class="card opening" id="card-' + id + '">'
   +                 '<div class="card-visible">'
   +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -76,20 +74,20 @@ var getPosition = function(cardDOM) {
 
 // Manipulate Card DOM
 var focusCardDOM = function(position) {
+  // console.log('focusCardDOM', position);
   var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
-  $('.card').addClass('faded');
-  cardDOM.removeClass('faded closed');
+  $('.card').addClass('faded').removeClass('opening');
+  cardDOM.removeClass('faded');
   $('.card .card-visible').each(function() {
     var newZIndex = parseInt($(this).css('z-index')) - 1;
     $(this).css('z-index',newZIndex);
   });
-  console.log(cardDOM.find('.card-spacer').css('width'));
-  // cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure if still necessary?
+  cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
+  reDrawIfOutOfSync();
 }
 var addCardDOM = function(list, cardKey, position) {
-  console.log(list, cardKey, position);
   var card = cards[cardKey];
   var template = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   var cardDOM;
@@ -103,21 +101,23 @@ var addCardDOM = function(list, cardKey, position) {
     // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
     // focusCard(0, position);
   }, 100);
+  reDrawIfOutOfSync();
 }
 var removeCardDOM = function(list, position) {
   $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(500, function() { $(this).remove(); }); // Needs to change height gradually
+  reDrawIfOutOfSync();
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
   var key = getKeyFromCardDOM(list, moveFrom);
-  console.log(key, moveFrom, moveTo);
   addCardDOM(0, key, moveTo);
-  removeCardDOM(0, moveFrom); // moveFrom has already been adjusted and passed here from moveCard function
+  var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
+  removeCardDOM(0, newMoveFrom); // moveFrom has already been adjusted and passed here from moveCard function
+  reDrawIfOutOfSync();
 }
 var setZValues = function() { // Doesn't yet handle multiple lists
   $('.card:not(.removed)').each(function(i, card) {
     var zValue = 1000 - Math.abs(i - focusPosition[0]);
     var zScale = 1 - Math.pow(0.6, Math.abs(i - focusPosition[0]));
-    console.log(zScale);
     $(card).find('.card-visible').css({'z-index': zValue, 'transform': 'scale(' + (1 - zScale/4) + ',' + (1 - zScale/4) + ')'});
     $(card).find('.card-grey').css('background', 'rgba(221,221,221,' + zScale + ')');
   });
@@ -137,7 +137,6 @@ var openCard = function(cardToOpen, positionFrom) {
     focusCard(0, positionFrom + 1);
 }
 var closeCard = function(list, cardPos) {
-  console.log(focusPosition[list], cardPos, cardLists[list].length);
   removeCard(list, cardPos);
   if (focusPosition[list] == cardPos) {
     if (cardPos == cardLists[list].length) {
@@ -168,8 +167,8 @@ var removeCard = function(list, pos) {
 var moveCard = function(list, moveFrom, moveTo) {
   var key = cardLists[list][moveFrom];
   insertCard(list, key, moveTo);
-  if (moveTo < moveFrom) { moveFrom++; } //Adjusts moveFrom to reflect the fact that moveTo has been inserted and pushed subsquent elements forward
-  deleteCard(list, moveFrom);
+  var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
+  deleteCard(list, newMoveFrom);
   moveCardDOM(0, moveFrom, moveTo);
 }
 
@@ -221,19 +220,51 @@ $(document).keydown(function(e) {
     e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
+var reDrawIfOutOfSync = function() {
+  window.setTimeout(function() {
+    if (!checkSync()) {
+      reDrawCards();
+    }
+  }, 500);
+}
+var checkSync = function() {
+  var inSync = true;
+  $('.card:not(.removed)').each(function(i, card) {
+    var focusedDOM = !$(card).hasClass('faded');
+    var focusedData = i == focusPosition[0];
+    var keyDOM = getKeyFromCardDOM(0,i);
+    var keyData = cardLists[0][i];
+    if (focusedDOM != focusedData || keyDOM != keyData) {
+      inSync = false;
+    }
+  });
+  return inSync;
+}
+var reDrawCards = function() { // If DOM cards don't match card data then run this to sort everything out (currently just refocuses correctly)
+  console.log('Something got out of sync so we\'re redrawing the cards in the DOM');
+  focusCard(0,focusPosition[0]);
+}
+
 
 $('.cards').on("click", function() {
-  printCards();
+  // printCards();
 });
 
 
 
 var printCards = function() {
   window.setTimeout(function() {
-    $.each(cardLists[0], function(i, card) {
-      var selected = i == focusPosition[0] ? '*' : '';
-      console.log(selected + i + ' - ' + card + ': ' + cards[card].title);
+    $.each(cardLists[0], function(i, key) {
+      var focused = i == focusPosition[0] ? '*' : '';
+      console.log(focused + i + ' - ' + key + ': ' + cards[key].title);
     });
+    console.log('---------------');
+    $('.card:not(.removed)').each(function(i, card) {
+      var focused = !$(card).hasClass('faded') ? '*' : '';
+      var key = getKeyFromCardDOM(0,i);
+      console.log(focused + i + ' - ' + key + ': ' + cards[key].title);
+    });
+    console.log('===============');
   }, 100);
 }
 
