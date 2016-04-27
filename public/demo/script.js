@@ -191,7 +191,7 @@ var fixCardsAboveViewport = function() {
     var scrollTop     = $(window).scrollTop(),
     elementOffset = $(card).offset().top,
     distance      = (elementOffset - scrollTop - 180);
-    if (distance < 0) {
+    if (distance <= 0) {
       $(card).find('.card-visible').css({ 'position': 'fixed', 'top': (180 + distance/20) });
       $(card).css({ 'opacity': (1 + distance/800) });
       // $(card).find('.card-spacer').css('height', '20px');
@@ -203,8 +203,8 @@ var fixCardsAboveViewport = function() {
   });
 }
 
-// setInterval(fixCardsAboveViewport,20);
-$( window ).scroll( fixCardsAboveViewport );
+setInterval(fixCardsAboveViewport,20);
+// $( window ).scroll( fixCardsAboveViewport );
 
 
 //UI Interaction
