@@ -78,7 +78,6 @@ body {
 
 .card .card-visible > i.close {
   z-index: 30;
-  opacity: 0;
   position: absolute;
   right: 10px;
   top: 8px;
@@ -139,6 +138,9 @@ h2 {
     color: white;
     background: #ff6e73;
     border: 2px solid #ff6e73;
+  }
+  .card .card-visible > i.close {
+    opacity: 0;
   }
   .card .card-visible:hover > i.close {
     opacity: 1;
