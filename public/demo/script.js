@@ -4,8 +4,6 @@ var focusPosition = [];
 var tempCards;
 var waitingForDoctop = true;
 
-console.log('hi');
-
 $.doctop({
   url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
   archieml: true,
@@ -76,7 +74,7 @@ var getPosition = function(cardDOM) {
 
 // Manipulate Card DOM
 var focusCardDOM = function(position) {
-  console.log('focusCardDOM', position);
+  // console.log('focusCardDOM', position);
   var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
   $('.card').addClass('faded');
   cardDOM.removeClass('faded opening');
@@ -89,7 +87,6 @@ var focusCardDOM = function(position) {
   setZValues();
 }
 var addCardDOM = function(list, cardKey, position) {
-  console.log(list, cardKey, position);
   var card = cards[cardKey];
   var template = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   var cardDOM;
@@ -108,9 +105,7 @@ var removeCardDOM = function(list, position) {
   $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(500, function() { $(this).remove(); }); // Needs to change height gradually
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
-  console.log(moveFrom, moveTo);
   var key = getKeyFromCardDOM(list, moveFrom);
-  console.log(key, moveFrom, moveTo);
   addCardDOM(0, key, moveTo);
   var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
   removeCardDOM(0, newMoveFrom); // moveFrom has already been adjusted and passed here from moveCard function
@@ -138,7 +133,6 @@ var openCard = function(cardToOpen, positionFrom) {
     focusCard(0, positionFrom + 1);
 }
 var closeCard = function(list, cardPos) {
-  console.log(focusPosition[list], cardPos, cardLists[list].length);
   removeCard(list, cardPos);
   if (focusPosition[list] == cardPos) {
     if (cardPos == cardLists[list].length) {
@@ -168,7 +162,6 @@ var removeCard = function(list, pos) {
 }
 var moveCard = function(list, moveFrom, moveTo) {
   var key = cardLists[list][moveFrom];
-  console.log(key, moveFrom, moveTo);
   insertCard(list, key, moveTo);
   var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
   deleteCard(list, newMoveFrom);
@@ -225,7 +218,7 @@ $(document).keydown(function(e) {
 
 
 $('.cards').on("click", function() {
-  printCards();
+  // printCards();
 });
 
 
