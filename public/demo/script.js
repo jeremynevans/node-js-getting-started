@@ -36,8 +36,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
     image = '//placekitten.com/300/200';
   }
   var template =  '<div class="card opening" id="card-' + id + '">'
-  +                 '<div class="card-visible">'
-  +                   '<div class="card-grey"><div></div></div>';
+  +                 '<div class="card-visible">';
   if (showHeaderImage) {
     template +=       '<div class="header-image">'
               +         '<img src="' + image + '">'
@@ -79,8 +78,8 @@ var focusCardDOM = function(position) {
   $('.card').addClass('faded').removeClass('opening');
   cardDOM.removeClass('faded');
   $('.card .card-visible').each(function() {
-    var newZIndex = parseInt($(this).css('z-index')) - 1;
-    $(this).css('z-index',newZIndex);
+    // var newZIndex = parseInt($(this).css('z-index')) - 1;
+    // $(this).css('z-index',newZIndex);
   });
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
@@ -98,7 +97,7 @@ var addCardDOM = function(list, cardKey, position) {
     cardDOM = $(template).appendTo('.cards');
   }
   window.setTimeout(function() {
-    // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/2);
+    cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
     // focusCard(0, position);
   }, 100);
   reDrawIfOutOfSync();
@@ -118,9 +117,14 @@ var setZValues = function() { // Doesn't yet handle multiple lists
   $('.card:not(.removed)').each(function(i, card) {
     var zValue = 1000 - Math.abs(i - focusPosition[0]);
     var zScale = 1 - Math.pow(0.6, Math.abs(i - focusPosition[0]));
-    $(card).find('.card-visible').css({'z-index': zValue, 'transform': 'scale(' + (1 - zScale/4) + ',' + (1 - zScale/4) + ')'});
-    $(card).find('.card-grey').css('background', 'rgba(221,221,221,' + zScale + ')');
+    // var top = i * 200;
+    // $(card).find('.card-spacer').css({ 'top': top });
+    // $(card).find('.card-visible').css({ 'z-index': zValue, 'transform': 'scale(' + (1 - zScale/4) + ',' + (1 - zScale/4) + ')' });
+    $(card).find('.card-grey').css( 'background', 'rgba(221,221,221,' + zScale + ')' );
   });
+  window.setTimeout(function() {
+    $('body').css({ 'padding-bottom': ( window.innerHeight - 200 - $('.card').last().height() ) });
+  }, 2000);
 }
 
 // Top-level commands (data manipulation which relies on Specific Card Functions)
@@ -182,6 +186,27 @@ var deleteCard = function(list, pos) {
 
 
 
+var fixCardsAboveViewport = function() {
+  $('.card').each(function(i, card) {
+    var scrollTop     = $(window).scrollTop(),
+    elementOffset = $(card).offset().top,
+    distance      = (elementOffset - scrollTop - 180);
+    if (distance < 0) {
+      $(card).find('.card-visible').css({ 'position': 'fixed', 'top': (180 + distance/20) });
+      $(card).css({ 'opacity': (1 + distance/800) });
+      // $(card).find('.card-spacer').css('height', '20px');
+    } else {
+      $(card).find('.card-visible').css({ 'position': 'absolute', 'top': '0px' });
+      $(card).css({ 'opacity': (2 - distance/200) });
+      // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
+    }
+  });
+}
+
+// setInterval(fixCardsAboveViewport,20);
+$( window ).scroll( fixCardsAboveViewport );
+
+
 //UI Interaction
 $(".cards").on("click", "a", function(){
   var cardToOpen = $(this).attr('href').substring(1); //Key of card to open
@@ -197,6 +222,8 @@ $(".cards").on("click", ".card", function(){
     focusCard(0, getPosition(this));
   }
 });
+
+
 
 
 $(document).keydown(function(e) {

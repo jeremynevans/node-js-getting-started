@@ -7,31 +7,44 @@ body {
 
 .logo {
   text-align: center;
+  position: fixed;
+  left: 0;
+  right: 0;
 }
 
 .logo img {
   position: relative;
-  margin: auto;
   width: 100%;
   max-width: 300px;
-  margin: 20px 0;
+  margin: 20px auto;
 }
 
 .cards {
-  margin: 0 auto;
+  position: relative;
+  margin: 160px auto 0 auto;
   max-width: 350px;
 }
 
 .card, .card .card-visible, .card .card-spacer {
-  -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
-  transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
+  -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s; /* Safari */
+  transition: transform 0.5s, height 0.5s, margin 0.5s;
+}
+
+.card .card-visible {
+  -webkit-transition: opacity 0.5s; /* Safari */
+  transition: opacity 0.5s;
+}
+
+.card {
+  position: relative;
+  width: 100%;
 }
 
 .card .card-spacer {
   position: relative;
   z-index: -100;
-  margin: 10px 0;
-  height: 100px;
+  margin: 20px 0;
+  height: 0px;
   /*border: solid red 2px;*/
 }
 
