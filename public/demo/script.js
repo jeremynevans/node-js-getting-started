@@ -37,7 +37,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
     image = '//placekitten.com/300/200';
   }
-  var template =  '<div class="card closed" id="card-' + id + '">'
+  var template =  '<div class="card opening" id="card-' + id + '">'
   +                 '<div class="card-visible">'
   +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -76,14 +76,14 @@ var getPosition = function(cardDOM) {
 
 // Manipulate Card DOM
 var focusCardDOM = function(position) {
+  console.log('focusCardDOM', position);
   var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
   $('.card').addClass('faded');
-  cardDOM.removeClass('faded closed');
+  cardDOM.removeClass('faded opening');
   $('.card .card-visible').each(function() {
     var newZIndex = parseInt($(this).css('z-index')) - 1;
     $(this).css('z-index',newZIndex);
   });
-  console.log(cardDOM.find('.card-spacer').css('width'));
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
@@ -108,16 +108,17 @@ var removeCardDOM = function(list, position) {
   $('.cards .card:not(.removed):eq(' + (position) + ')').addClass('removed').fadeOut(500, function() { $(this).remove(); }); // Needs to change height gradually
 }
 var moveCardDOM = function(list, moveFrom, moveTo) { // This should soon have a move animation instead of just removing then adding
+  console.log(moveFrom, moveTo);
   var key = getKeyFromCardDOM(list, moveFrom);
   console.log(key, moveFrom, moveTo);
   addCardDOM(0, key, moveTo);
-  removeCardDOM(0, moveFrom); // moveFrom has already been adjusted and passed here from moveCard function
+  var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
+  removeCardDOM(0, newMoveFrom); // moveFrom has already been adjusted and passed here from moveCard function
 }
 var setZValues = function() { // Doesn't yet handle multiple lists
   $('.card:not(.removed)').each(function(i, card) {
     var zValue = 1000 - Math.abs(i - focusPosition[0]);
     var zScale = 1 - Math.pow(0.6, Math.abs(i - focusPosition[0]));
-    console.log(zScale);
     $(card).find('.card-visible').css({'z-index': zValue, 'transform': 'scale(' + (1 - zScale/4) + ',' + (1 - zScale/4) + ')'});
     $(card).find('.card-grey').css('background', 'rgba(221,221,221,' + zScale + ')');
   });
@@ -167,9 +168,10 @@ var removeCard = function(list, pos) {
 }
 var moveCard = function(list, moveFrom, moveTo) {
   var key = cardLists[list][moveFrom];
+  console.log(key, moveFrom, moveTo);
   insertCard(list, key, moveTo);
-  if (moveTo < moveFrom) { moveFrom++; } //Adjusts moveFrom to reflect the fact that moveTo has been inserted and pushed subsquent elements forward
-  deleteCard(list, moveFrom);
+  var newMoveFrom = moveTo < moveFrom ? moveFrom+1 : moveFrom; //Reflects the fact that moveTo has been inserted and pushed subsquent elements forward
+  deleteCard(list, newMoveFrom);
   moveCardDOM(0, moveFrom, moveTo);
 }
 
@@ -230,10 +232,17 @@ $('.cards').on("click", function() {
 
 var printCards = function() {
   window.setTimeout(function() {
-    $.each(cardLists[0], function(i, card) {
-      var selected = i == focusPosition[0] ? '*' : '';
-      console.log(selected + i + ' - ' + card + ': ' + cards[card].title);
+    $.each(cardLists[0], function(i, key) {
+      var focused = i == focusPosition[0] ? '*' : '';
+      console.log(focused + i + ' - ' + key + ': ' + cards[key].title);
     });
+    console.log('---------------');
+    $('.card:not(.removed)').each(function(i, card) {
+      var focused = !$(card).hasClass('faded') ? '*' : '';
+      var key = getKeyFromCardDOM(0,i);
+      console.log(focused + i + ' - ' + key + ': ' + cards[key].title);
+    });
+    console.log('===============');
   }, 100);
 }
 

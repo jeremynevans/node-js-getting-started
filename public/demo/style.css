@@ -63,7 +63,7 @@ body {
 }
 
 
-.card.closed .card-visible {
+.card.opening .card-visible {
   transform: scale(0,0);
   /*height: 0;*/
   opacity: 0;
@@ -163,7 +163,7 @@ h2 {
     -ms-transform: scale(0.01);
     transform: scale(0.01);
   }
-  .card.closed .card-spacer, .card.removed .card-spacer {
+  .card.opening .card-spacer, .card.removed .card-spacer {
     height: 0;
   }
 }
