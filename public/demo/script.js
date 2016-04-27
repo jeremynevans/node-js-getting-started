@@ -84,7 +84,7 @@ var focusCardDOM = function(position) {
     $(this).css('z-index',newZIndex);
   });
   console.log(cardDOM.find('.card-spacer').css('width'));
-  // cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure if still necessary?
+  cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
 }
