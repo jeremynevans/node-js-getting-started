@@ -76,12 +76,27 @@ body {
   /*opacity: 0.4;*/
 }
 
+.card.removed {
+  -moz-transform: scale(0.01);
+  -webkit-transform: scale(0.01);
+  -o-transform: scale(0.01);
+  -ms-transform: scale(0.01);
+  transform: scale(0.01);
+}
+.card.opening .card-spacer, .card.removed .card-spacer {
+  height: 0;
+}
+
 .card .card-visible > i.close {
   z-index: 30;
   position: absolute;
   right: 10px;
   top: 8px;
   color: #bbb;
+}
+
+.card .card-visible > i.close:active {
+  color: #ff6e73;
 }
 
 .header-image {
@@ -157,15 +172,5 @@ h2 {
   }
   .card.faded .card-grey:hover > div {
     background: rgba(255,255,255,0.1);
-  }
-  .card.removed {
-    -moz-transform: scale(0.01);
-    -webkit-transform: scale(0.01);
-    -o-transform: scale(0.01);
-    -ms-transform: scale(0.01);
-    transform: scale(0.01);
-  }
-  .card.opening .card-spacer, .card.removed .card-spacer {
-    height: 0;
   }
 }
