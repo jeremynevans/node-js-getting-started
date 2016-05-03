@@ -82,7 +82,7 @@ var focusCardDOM = function(position) {
     // $(this).css('z-index',newZIndex);
   });
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
-  $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
+  // $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 80},'slow');
   setZValues();
   reDrawIfOutOfSync();
 }
@@ -96,6 +96,7 @@ var addCardDOM = function(list, cardKey, position) {
   } else {
     cardDOM = $(template).appendTo('.cards');
   }
+  $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 180},'slow');
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
     // focusCard(0, position);
