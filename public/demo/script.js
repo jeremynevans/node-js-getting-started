@@ -98,7 +98,8 @@ var addCardDOM = function(list, cardKey, position) {
   }
   $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 180},'slow');
   window.setTimeout(function() {
-    cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
+    // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
+    // $('html,body').stop().animate({scrollTop: cardDOM.offset().top - 180},'slow');
     // focusCard(0, position);
   }, 100);
   reDrawIfOutOfSync();
@@ -198,7 +199,12 @@ var fixCardsAboveViewport = function() {
       // $(card).find('.card-spacer').css('height', '20px');
     } else {
       $(card).find('.card-visible').css({ 'position': 'absolute', 'top': '0px' });
-      $(card).css({ 'opacity': (2 - distance/200) });
+      $(card).css({ 'opacity': (1 - distance/150) });
+      if ( $(card).css('opacity') > 0.1 ) {
+        $(card).css('pointer-events', 'auto');
+      } else {
+        $(card).css('pointer-events', 'none');
+      }
       // cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
     }
   });
