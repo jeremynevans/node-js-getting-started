@@ -83,7 +83,7 @@ h6 {
 }
 
 h1, .intro-header .epanel.panel-1 div {
-    font-size: 12vw;
+    font-size: 10vw;
 }
 
 .intro-header .epanel.panel-1 h1 {
@@ -444,7 +444,7 @@ footer a, footer a:hover {
 	}
 
 	h1, .intro-header .epanel.panel-1 div {
-		font-size: 4.5em;
+		font-size: 3em;
 	}
 }
 

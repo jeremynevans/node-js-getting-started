@@ -13,7 +13,7 @@
     <section class="intro-header reverse-colors">
       <div class="epanel panel-1">
         <h1 class="main-heading">
-          The news app that <span style="font-weight: 400">doesn't&nbsp;suck</span>
+          That awkward moment when someone <br><span style="font-size: 1.3em; font-weight: 400;"> brings up <span style="">the economy</span></span>
         </h1>
       </div>
       <div class="panel-table">
@@ -191,6 +191,24 @@
 
   <% include ../partials/footer.ejs %>
 
+
+  <script src="js/typed.js"></script>
+  <script>
+    $(function(){
+        $("h1.main-heading span span").typed({
+          strings: ["the economy", "politics", "the financial crisis", "housing policy"],
+          // typing speed
+          typeSpeed: 0,
+          // time before typing starts
+          startDelay: 0,
+          // backspacing speed
+          backSpeed: 0,
+          // time before backspacing
+          backDelay: 2000,
+          loop: true
+        });
+    });
+  </script>
 
   <script>
     var placeholders = ['sammy@dontunderstand.com','bobby@ohsoconfused.net', 'alex@jenecomprends.pas', 'sam@discombobulated.me'];
