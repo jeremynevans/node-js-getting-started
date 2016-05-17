@@ -7,24 +7,36 @@ body {
 
 .logo {
   text-align: center;
+  background: #ddd;
+  position: fixed;
+  z-index: 100000;
+  text-align: center;
+  left: 0;
+  width: 100%;
+  padding: 10px 0;
+  margin-top: -20px;
 }
 
 .logo img {
   position: relative;
   margin: auto;
-  width: 100%;
-  max-width: 300px;
-  margin: 20px 0;
+  height: 15vw;
+  margin: 0;
 }
 
 .cards {
   margin: 0 auto;
+  margin-top: 60px;
   max-width: 350px;
 }
 
 .card, .card .card-visible, .card .card-spacer {
   -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
   transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
+}
+
+.card {
+  margin: 20px 0;
 }
 
 .card .card-spacer {
