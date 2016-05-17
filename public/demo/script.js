@@ -85,7 +85,14 @@ var focusCardDOM = function(position) {
     // $(this).css('z-index',newZIndex);
   });
   cardDOM.find('.card-visible').css({ 'width': cardDOM.find('.card-spacer').css('width') }); // Not sure why but this is still necessary! For when cards first load.
-  $('html,body').stop().animate({scrollTop: previousCardDOM.offset().top - 80},'slow');
+  console.log(cardDOM.offset().top);
+  console.log(cardDOM.find('.card-visible').height());
+  console.log(document.body.clientHeight);
+  var scrollPos = cardDOM.offset().top + cardDOM.find('.card-visible').height() - document.body.clientHeight + 20;
+  console.log(scrollPos);
+  console.log('---------');
+ //previousCardDOM.offset().top - 80
+  $('html,body').stop().animate({scrollTop: scrollPos},'slow');
   setZValues();
   reDrawIfOutOfSync();
 }
@@ -152,14 +159,17 @@ var closeCard = function(list, cardPos) {
 // Specific Card Functions that trigger, and correspond to, DOM Functions
 var focusCard = function(list, position) {
   if (position >= 0 && position < cardLists[list].length) {
-    $.each(cardLists[list], function(i, card) {
-      if (i > position) {
-        removeCard(list, i);
-      }
-    });
     focusPosition[list] = position;
     window.setTimeout(function() {
       focusCardDOM(position);
+      window.setTimeout(function() {
+        $.each(cardLists[list], function(i, card) {
+          if (i > position) {
+            console.log('i: ' + i + ', position: ' + position);
+            removeCard(list, i);
+          }
+        });
+      }, 100);
     }, 10);
   }
 }
