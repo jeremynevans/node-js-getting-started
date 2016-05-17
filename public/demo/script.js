@@ -315,3 +315,12 @@ hammertime.on('swipedown', function(ev) {
 	console.log(ev);
   focusCard(0, focusPosition[0]-1);
 });
+
+
+
+
+$(document).ready(function(){
+  $('.your-class').slick({
+    // setting-name: setting-value
+  });
+});
