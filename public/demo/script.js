@@ -35,30 +35,34 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
     image = '//placekitten.com/300/200';
   }
-  var template =  '<div class="card opening" id="card-' + id + '">'
-  +                 '<div class="card-visible">';
-  // +                   '<div class="card-grey"><div></div></div>';
+  var template =  '<div class="card-carousel">'
+    +               '<div class="card opening" id="card-' + id + '">'
+    +                 '<div class="card-visible">';
+    // +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
-    template +=       '<div class="header-image">'
-              +         '<img src="' + image + '">'
-              +         '<h3>'
-              +           topic
-              +         '</h3>'
-              +       '</div>';
+    template +=         '<div class="header-image">'
+                +         '<img src="' + image + '">'
+                +         '<h3>'
+                +           topic
+                +         '</h3>'
+                +       '</div>';
   } else {
-    template +=       '<i class="fa fa-times close" aria-hidden="true"></i>'
-              +       '<h2>'
-              +         title
-              +       '</h2>'
+    template +=         '<i class="fa fa-times close" aria-hidden="true"></i>'
+                +       '<h2>'
+                +         title
+                +       '</h2>'
   };
-  template +=         '<div class="body-content">'
-              +         '<p>'
-              +           body.replace(/\s/g,' ')
-              +         '</p>'
-              +       '</div>'
-              +     '</div>'
-              +     '<div class="card-spacer"></div>'
-              +   '</div>';
+  template +=           '<div class="body-content">'
+                +         '<p>'
+                +           body.replace(/\s/g,' ')
+                +         '</p>'
+                +       '</div>'
+                +     '</div>'
+                +     '<div class="card-spacer"></div>'
+                +   '</div>'
+                +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div></div></div>'
+                +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div></div></div>'
+                + '</div>';
   return template;
 };
 
@@ -106,6 +110,10 @@ var addCardDOM = function(list, cardKey, position) {
   } else {
     cardDOM = $(template).appendTo('.cards');
   }
+  $('.card-carousel').slick({
+    dots: true,
+    infinite: false
+  });
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
     // focusCard(0, position);
@@ -320,7 +328,7 @@ hammertime.on('swipedown', function(ev) {
 
 
 $(document).ready(function(){
-  $('.your-class').slick({
-    // setting-name: setting-value
-  });
+  // $('.card-carousel').slick({
+  //   // setting-name: setting-value
+  // });
 });

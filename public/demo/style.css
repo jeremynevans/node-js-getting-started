@@ -24,6 +24,7 @@ body {
   margin: 0;
 }
 
+
 .cards {
   margin: 0 auto;
   margin-top: 60px;
@@ -39,6 +40,8 @@ body {
   margin: 20px 0;
 }
 
+.card:focus {outline:0;}
+
 .card .card-spacer {
   position: relative;
   z-index: -100;
@@ -50,7 +53,9 @@ body {
 .card .card-visible {
   position: absolute;
   transform: scale(1,1);
-  max-width: 350px;
+  width: 100%;
+  margin: 0 5px;
+  max-width: 340px;
   border-radius: 15px;
   overflow: hidden;
   opacity: 1;
