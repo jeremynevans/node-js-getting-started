@@ -112,7 +112,8 @@ var addCardDOM = function(list, cardKey, position) {
   }
   $('.card-carousel').slick({
     dots: true,
-    infinite: false
+    infinite: false,
+    adaptiveHeight: true
   });
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
