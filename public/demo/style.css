@@ -38,6 +38,7 @@ body {
 
 .card {
   margin: 20px 0;
+  padding: 0 5px;
 }
 
 .card:focus {outline:0;}
@@ -51,11 +52,11 @@ body {
 }
 
 .card .card-visible {
-  position: absolute;
-  transform: scale(1,1);
-  width: 100%;
+  /*position: absolute;*/
+  /*transform: scale(1,1);*/
+  /*width: 100%;*/
   /*margin: 0 5px;*/
-  max-width: 340px;
+  /*max-width: 340px;*/
   border-radius: 15px;
   overflow: hidden;
   opacity: 1;
@@ -123,7 +124,7 @@ body {
 
 .header-image img {
   position: relative;
-  z-index: -1;
+  /*z-index: -1;*/
   width: 100%;
   height: 100%;
   object-fit: cover;

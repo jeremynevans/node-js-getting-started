@@ -58,7 +58,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
                 +         '</p>'
                 +       '</div>'
                 +     '</div>'
-                +     '<div class="card-spacer"></div>'
+                // +     '<div class="card-spacer"></div>'
                 +   '</div>'
                 +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div></div></div>'
                 +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div></div></div>'
@@ -113,7 +113,11 @@ var addCardDOM = function(list, cardKey, position) {
   $('.card-carousel').slick({
     dots: true,
     infinite: false,
-    adaptiveHeight: true
+    // adaptiveHeight: true,
+    centerMode: true,
+    centerPadding: '15px',
+    slidesToShow: 1,
+    arrows: false
   });
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height());
