@@ -39,46 +39,12 @@ window.setTimeout(function() {
   // }
 }, 300);
 
-var cardCarouselTemplate = function (id, title, body, image, topic, showHeaderImage) {
-  if (!image) {
-    image = '//placekitten.com/300/200';
-  }
-  var template =  '<div class="card-carousel">'
-    +               '<div class="card opening" id="card-' + id + '">'
-    +                 '<div class="card-visible">';
-    // +                   '<div class="card-grey"><div></div></div>';
-  if (showHeaderImage) {
-    template +=         '<div class="header-image">'
-                +         '<img src="' + image + '">'
-                +         '<h3>'
-                +           topic
-                +         '</h3>'
-                +       '</div>';
-  } else {
-    template +=         '<i class="fa fa-times close" aria-hidden="true"></i>'
-                +       '<h2>'
-                +         title
-                +       '</h2>'
-  };
-  template +=           '<div class="body-content">'
-                +         '<p>'
-                +           body.replace(/\s/g,' ')
-                +         '</p>'
-                +       '</div>'
-                +     '</div>'
-                // +     '<div class="card-spacer"></div>'
-                +   '</div>'
-                +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p></div></div></div>'
-                +   '<div class="card"><div class="card-visible"><i class="fa fa-times close" aria-hidden="true"></i><div class="body-content"><p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p></div></div></div>'
-                + '</div>';
-  return template;
-};
 
 var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
   if (!image) {
     image = '//placekitten.com/300/200';
   }
-  var template =  '<div class="card opening" id="card-' + id + '">'
+  var template =  '<div class="card opening" id="card-' + id + '" style="height: auto;">'
   +                 '<div class="card-visible">';
     // +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -123,9 +89,9 @@ var openLayer = function(keys, index) {
   template = '<div class="card-carousel">' + template + '</div>';
 
   // template = '<div class="card-carousel">'
-  //     + '<div><div style="background:red; height: 100px; width: 200px"></div></div>'
-  //     + '<div><div style="background:red; height: 120px; width: 200px"></div></div>'
-  //     + '<div><div style="background:red; height: 130px; width: 200px"></div></div>'
+  //     + '<div style="background:red; height: auto; width: 200px">Hello</div>'
+  //     + '<div style="background:red; height: auto; width: 200px">Hello<br>Hello</div>'
+  //     + '<div style="background:red; height: auto; width: 200px">Hello</div>'
   //     + '</div>';
 
   cardDOM = $(template).appendTo('.cards');
@@ -133,7 +99,7 @@ var openLayer = function(keys, index) {
   $('.card-carousel').slick({
     dots: true,
     infinite: false,
-    // adaptiveHeight: true,
+    adaptiveHeight: true,
     centerMode: true,
     centerPadding: '15px',
     slidesToShow: 1,
