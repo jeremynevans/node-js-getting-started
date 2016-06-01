@@ -3,6 +3,7 @@ var cardLists = []; cardLists[0] = [];
 var focusPosition = [];
 var tempCards;
 var waitingForDoctop = true;
+var ongoingKeyCounter = 0;
 
 $.doctop({
   url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
@@ -86,17 +87,19 @@ var openLayer = function(keys, index) {
     var card = cards[key];
     template = template + cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   });
-  template = '<div class="card-carousel">' + template + '</div>';
+  template = '<div class="card-carousel" id="' + ongoingKeyCounter + '">' + template + '</div>';
 
   // template = '<div class="card-carousel">'
-  //     + '<div style="background:red; height: auto; width: 200px">Hello</div>'
-  //     + '<div style="background:red; height: auto; width: 200px">Hello<br>Hello</div>'
-  //     + '<div style="background:red; height: auto; width: 200px">Hello</div>'
+  //     + '<div style="background:blue; height: auto; width: 300px;">Hello</div>'
+  //     + '<div style="background:blue; height: auto; width: 300px;">Hello<br>Hello</div>'
+  //     + '<div style="background:blue; height: auto; width: 300px;">Hello</div>'
   //     + '</div>';
 
   cardDOM = $(template).appendTo('.cards');
 
-  $('.card-carousel').slick({
+  console.log(ongoingKeyCounter);
+
+  $('#' + ongoingKeyCounter).slick({
     dots: true,
     infinite: false,
     adaptiveHeight: true,
@@ -105,6 +108,8 @@ var openLayer = function(keys, index) {
     slidesToShow: 1,
     arrows: false
   });
+  
+  ongoingKeyCounter++;
 
   $('.card').removeClass('opening');
 }
