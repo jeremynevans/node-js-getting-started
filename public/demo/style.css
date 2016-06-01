@@ -1,5 +1,5 @@
 body {
-  padding: 20px 20px 200px 20px;
+  padding: 20px 0 0 0;
   background: #ddd;
   font-family: Lato;
   color: #333;
@@ -28,7 +28,7 @@ body {
 .cards {
   margin: 0 auto;
   margin-top: 60px;
-  max-width: 350px;
+  max-width: 380px;
 }
 
 .card, .card .card-visible, .card .card-spacer {
@@ -37,8 +37,12 @@ body {
 }
 
 .card {
-  margin: 20px 0;
+  margin: 10px 0;
   padding: 0 5px;
+}
+
+.card.standalone {
+  margin: 20px 15px 10px 15px;
 }
 
 .card:focus {outline:0;}
@@ -107,10 +111,11 @@ body {
 
 .card .card-visible > i.close {
   z-index: 30;
-  position: absolute;
-  right: 10px;
+  position: relative;
+  float: right;
   top: 8px;
   color: #bbb;
+  margin-right: 10px;
 }
 
 .card .card-visible > i.close:active {
@@ -156,7 +161,7 @@ h2 {
   color: #333;
 }
 
-.body-content a:active {
+.body-content a:active, .body-content a.active {
   color: white;
   background: #ff6e73;
   border: 2px solid #ff6e73;

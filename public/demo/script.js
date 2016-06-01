@@ -4,6 +4,7 @@ var focusPosition = [];
 var tempCards;
 var waitingForDoctop = true;
 var ongoingKeyCounter = 0;
+var layers = 1;
 
 $.doctop({
   url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
@@ -30,7 +31,8 @@ window.setTimeout(function() {
     cards = {"0":{"id":"0","topic":"Heathrow Drone","title":"Drone hits Heathrow plane","body":"<a href=\"#1\">A British Airways flight from Geneva</a> is <a href=\"#2\">believed to have hit a drone</a> before <a href=\"#8\">landing safely at Heathrow</a> airport, raising <a href=\"#3\">concerns over aviation safety</a>.","headline":"true","coverImage":"https://pixabay.com/static/uploads/photo/2015/12/29/13/13/drone-1112752_960_720.jpg","draftOrAuthor":"yukiko"},"1":{"id":"1","topic":"Heathrow Drone","title":"A British Airways flight","body":"The flight BA727 from Geneva to Heathrow was carrying 132 passengers and 5 crew. <a href=\"#5\">The Airbus A320</a> plane <a href=\"#7\">was cleared to take off the next flight after being examined</a>.","draftOrAuthor":"yukiko"},"2":{"id":"2","topic":"Heathrow Drone","title":"Believed to have hit a drone","body":"The pilot reported an object that is believed to be a drone struck the front of <a href=\"#1\">the flight</a>, and it would be the first incident of its kind in the UK if confirmed. \n        <a href=\"#6\">The investigation is underway</a>.","draftOrAuthor":"yukiko"},"3":{"id":"3","topic":"Drone and aviation safety","title":"Concerns over aviation safety and drone","body":"<a href=\"#10\">Pilots have called for an investigation</a> into the likely effects of <a href=\"#9\">a drone strike on an aircraft</a> last month, following <a href=\"#4\">a report on their near-misses</a>.","draftOrAuthor":"yukiko"},"4":{"id":"4","topic":"Drone and aviation safety","title":"Report by the UK Airpox Board","body":"There were 23 near-misses between drones and aircraft in the 6 months between April and October last year.","draftOrAuthor":"yukiko"},"5":{"id":"5","topic":"Heathrow Drone","title":"Airbus A320 family","body":"The A320 manufactured by Airbus typically seats 150 passengers in a two-class cabin, and is commonly used by commercial flights.","draftOrAuthor":"yukiko"},"6":{"id":"6","topic":"Heathrow Drone","title":"Investigation on ‘drone’ claim","body":"Police says no arrests have been made. \n        The British Airline will give the police “every assistance with their investigation”.","draftOrAuthor":"yukiko"},"7":{"id":"7","topic":"Heathrow Drone","title":"Quote","body":"A British Airways spokesperson said: \n        “Our aircraft landed safely, was fully examined by our engineers and it was cleared to operate its next flight”.","draftOrAuthor":"yukiko"},"8":{"id":"8","topic":"Heathrow Drone","title":"Landing safely at Heathrow airport","body":"Despite a hit by an object, believed to be a drone, the flight with 132 passengers and 5 crew <a href=\"#7\">landed safely without damage to the aircraft</a>.","draftOrAuthor":"yukiko"},"9":{"id":"9","topic":"Drone and aviation safety","title":"Drone strike on aircraft","body":"<a href=\"#11\">People who fly drones</a> close to planes could be convicted of endangering aviation safety, which has a maximum prison sentence of five years, according to the Civil Aviation Authority.","draftOrAuthor":"yukiko"},"10":{"id":"10","topic":"Drone and aviation safety","title":"Pilots have called for an investigation","body":"The British Airline Pilots Association wants the Department for Transport and the Civil Aviation Authority to investigate into the effects of <a href=\"#9\">a drone strike on an aircraft</a>.","draftOrAuthor":"yukiko"},"11":{"id":"11","topic":"Drone and aviation safety","title":"People flying drones","body":"<a href=\"#12\">The Civil Aviation Authority is focusing on educating people</a> who use drones, fearing that many of them are not familiar with the legal issues.","draftOrAuthor":"yukiko"},"12":{"id":"12","topic":"Drone and aviation safety","title":"CAA and “dronecode”","body":"The Civil Aviation Authority launched Dronecode to simplify the rules over drones.","draftOrAuthor":"yukiko"}};
 
     var card = cards[0];
-    var tempTemplate = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
+    var tempTemplate = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline, true);
+    tempTemplate = '<div class="layer" id="layer-0">' + tempTemplate + '</div>';
     cardDOM = $(tempTemplate).appendTo('.cards');
     console.log(cardDOM);
     window.setTimeout(function() {
@@ -41,11 +43,12 @@ window.setTimeout(function() {
 }, 300);
 
 
-var cardTemplate = function (id, title, body, image, topic, showHeaderImage) {
+var cardTemplate = function (id, title, body, image, topic, showHeaderImage, standalone) {
   if (!image) {
     image = '//placekitten.com/300/200';
   }
-  var template =  '<div class="card opening" id="card-' + id + '" style="height: auto;">'
+  var standaloneClass = standalone ? ' standalone' : '';
+  var template =  '<div class="card opening' + standaloneClass + '" id="card-' + id + '" style="height: auto;">'
   +                 '<div class="card-visible">';
     // +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -81,13 +84,13 @@ var getPosition = function(cardDOM) {
 }
 
 
-var openLayer = function(keys, index) {
+var openLayer = function(layer, keys, slide) {
   var template = '';
   $.each(keys, function(i, key) {
     var card = cards[key];
     template = template + cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   });
-  template = '<div class="card-carousel" id="' + ongoingKeyCounter + '">' + template + '</div>';
+  template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '">' + template + '</div>';
 
   // template = '<div class="card-carousel">'
   //     + '<div style="background:blue; height: auto; width: 300px;">Hello</div>'
@@ -99,19 +102,26 @@ var openLayer = function(keys, index) {
 
   console.log(ongoingKeyCounter);
 
-  $('#' + ongoingKeyCounter).slick({
-    dots: true,
+  // $('#' + (ongoingKeyCounter-1)).slick('unslick');
+  $('.layer-id-' + ongoingKeyCounter).slick({
+    dots: false,
     infinite: false,
     adaptiveHeight: true,
     centerMode: true,
     centerPadding: '15px',
     slidesToShow: 1,
-    arrows: false
+    arrows: false,
+    initialSlide: slide
   });
-  
+
+  layers++;
   ongoingKeyCounter++;
 
   $('.card').removeClass('opening');
+  highlightLink(layer, slide);
+
+  var scrollPos = cardDOM.offset().top;// + cardDOM.find('.card-visible').height() - document.body.clientHeight + 20;
+  $('html,body').stop().animate({scrollTop: scrollPos},'slow');
 }
 
 var openCard = function(keys) {
@@ -119,29 +129,58 @@ var openCard = function(keys) {
 }
 
 
+var getLayerNumber = function(layerDOM) {
+  console.log($(layerDOM));
+  var layer = layerDOM.closest('.layer').attr('id').split('-')[1];
+  return layer;
+}
+
 
 
 
 
 //UI Interaction
 $(".cards").on("click", "a", function(){
-  var cardToOpenKey = $(this).attr('href').substring(1);
+  var slide = $(this).index();
+  console.log(slide);
+  temp = $(this);
+  var layer = getLayerNumber($(this));
   var allKeys = [];
   $.each($(this).closest('.body-content').find('a'), function(i, link) {
     console.log(link);
     allKeys.push($(link).attr('href').substring(1));
   });
-  openLayer(allKeys, 0);
+  layer++;
+  console.log(layer);
+  console.log(layers);
+  if (layer == layers) {
+    openLayer(layer, allKeys, slide);
+  } else {
+    $('#layer-' + layer).slick('slickGoTo', slide);
+  }
 });
 $(".cards").on("click", "i.close", function(){
   var card = $(this).closest('.card');
   closeCard(0, getPosition(card));
 });
-$(".cards").on("click", ".card", function(){
-  if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
-    focusCard(0, getPosition(this));
-  }
+// $(".cards").on("click", ".card", function(){
+//   if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
+//     focusCard(0, getPosition(this));
+//   }
+// });
+
+
+// On before slide change
+$('.cards').on('beforeChange', '.card-carousel', function(event, slick, currentSlide, nextSlide){
+  var layer = getLayerNumber($(this));
+  highlightLink(layer, nextSlide);
 });
+
+var highlightLink = function(layer, slide) {
+  layer--; slide++;
+  $('#layer-' + layer).find('.body-content a').removeClass('active');
+  $('#layer-' + layer).find('.body-content a:nth-child(' + slide + ')').addClass('active');
+}
 
 
 $(document).keydown(function(e) {
