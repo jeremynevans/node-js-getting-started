@@ -5,6 +5,7 @@ var tempCards;
 var waitingForDoctop = true;
 var ongoingKeyCounter = 0;
 var layers = 1;
+var temp;
 
 $.doctop({
   url: '//docs.google.com/document/d/1BgNrI3z6tnDtayH0L4mEJqu1C9PjJ8sscVw6vr41s_0/pub',
@@ -34,7 +35,6 @@ window.setTimeout(function() {
     var tempTemplate = cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline, true);
     tempTemplate = '<div class="layer" id="layer-0">' + tempTemplate + '</div>';
     cardDOM = $(tempTemplate).appendTo('.cards');
-    console.log(cardDOM);
     window.setTimeout(function() {
       $('.card').removeClass('opening');
     }, 300);
@@ -84,8 +84,7 @@ var getPosition = function(cardDOM) {
 }
 
 
-var openLayer = function(layer, keys, slide) {
-  console.log(layer);
+var openLayer = function(layer, keys, slide, slideFrom) {
   $('.layer i.close').hide();
   $('.layer a').removeClass('active');
   var template = '';
@@ -93,7 +92,7 @@ var openLayer = function(layer, keys, slide) {
     var card = cards[key];
     template = template + cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
   });
-  template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '">' + template + '</div>';
+  template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '" slide-from="' + slideFrom + '">' + template + '</div>';
 
   // template = '<div class="card-carousel">'
   //     + '<div style="background:blue; height: auto; width: 300px;">Hello</div>'
@@ -102,8 +101,6 @@ var openLayer = function(layer, keys, slide) {
   //     + '</div>';
 
   cardDOM = $(template).appendTo('.cards');
-
-  console.log(ongoingKeyCounter);
 
   // $('#' + (ongoingKeyCounter-1)).slick('unslick');
   $('.layer-id-' + ongoingKeyCounter).slick({
@@ -138,11 +135,13 @@ var closeLayer = function(layer) {
 var focusLayer = function(layer) {
   var cardDOM = $('#layer-' + layer);
   var scrollPos = cardDOM.offset().top + cardDOM.find('.card').height() - document.body.clientHeight + 20;
-  console.log(cardDOM.offset().top);
-  console.log(cardDOM.find('.card').height());
-  console.log(document.body.clientHeight);
-  console.log(scrollPos);
   $('html,body').stop().animate({scrollTop: scrollPos},'medium');
+  var slideFrom = $('#layer-' + layer).attr('slide-from');
+  slideFrom++;
+  console.log(slideFrom);
+  $('#layer-' + (layer-1)).find('.card').addClass('removed');
+  $('#layer-' + (layer-1)).find('.card:nth-child(' + slideFrom + ')').removeClass('removed');
+  $('#layer-' + layer).find('.card').removeClass('removed');
 }
 
 var openCard = function(keys) {
@@ -151,7 +150,6 @@ var openCard = function(keys) {
 
 
 var getLayerNumber = function(layerDOM) {
-  console.log($(layerDOM));
   var layer = layerDOM.closest('.layer').attr('id').split('-')[1];
   return layer;
 }
@@ -163,19 +161,19 @@ var getLayerNumber = function(layerDOM) {
 //UI Interaction
 $(".cards").on("click", "a", function(){
   var slide = $(this).index();
+  var slideFrom = $(this).closest('.card').index();//.slick('slickCurrentSlide');
+  temp = $(this).closest('.layer > div');
   console.log(slide);
-  temp = $(this);
+  console.log(slideFrom);
+  // temp = $(this);
   var layer = getLayerNumber($(this));
   var allKeys = [];
   $.each($(this).closest('.body-content').find('a'), function(i, link) {
-    console.log(link);
     allKeys.push($(link).attr('href').substring(1));
   });
   layer++;
-  console.log(layer);
-  console.log(layers);
   if (layer == layers) {
-    openLayer(layer, allKeys, slide);
+    openLayer(layer, allKeys, slide, slideFrom);
   } else {
     $('#layer-' + layer).slick('slickGoTo', slide);
   }
