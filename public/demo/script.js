@@ -85,6 +85,9 @@ var getPosition = function(cardDOM) {
 
 
 var openLayer = function(layer, keys, slide) {
+  console.log(layer);
+  $('.layer i.close').hide();
+  $('.layer a').removeClass('active');
   var template = '';
   $.each(keys, function(i, key) {
     var card = cards[key];
@@ -114,14 +117,32 @@ var openLayer = function(layer, keys, slide) {
     initialSlide: slide
   });
 
+
   layers++;
   ongoingKeyCounter++;
 
   $('.card').removeClass('opening');
   highlightLink(layer, slide);
+  focusLayer(layer);
+}
 
-  var scrollPos = cardDOM.offset().top;// + cardDOM.find('.card-visible').height() - document.body.clientHeight + 20;
-  $('html,body').stop().animate({scrollTop: scrollPos},'slow');
+var closeLayer = function(layer) {
+  $('#layer-' + layer).find('.card').addClass('removed');
+  $('#layer-' + layer).fadeOut(500, function() { $(this).remove(); });
+  layers--;
+  $('#layer-' + (layer-1)).find('a').removeClass('active');
+  $('#layer-' + (layer-1)).find('i.close').show();
+  focusLayer(layer-1);
+}
+
+var focusLayer = function(layer) {
+  var cardDOM = $('#layer-' + layer);
+  var scrollPos = cardDOM.offset().top + cardDOM.find('.card').height() - document.body.clientHeight + 20;
+  console.log(cardDOM.offset().top);
+  console.log(cardDOM.find('.card').height());
+  console.log(document.body.clientHeight);
+  console.log(scrollPos);
+  $('html,body').stop().animate({scrollTop: scrollPos},'medium');
 }
 
 var openCard = function(keys) {
@@ -160,8 +181,9 @@ $(".cards").on("click", "a", function(){
   }
 });
 $(".cards").on("click", "i.close", function(){
-  var card = $(this).closest('.card');
-  closeCard(0, getPosition(card));
+  // var card = $(this).closest('.card');
+  layer = getLayerNumber($(this));
+  closeLayer(layer);
 });
 // $(".cards").on("click", ".card", function(){
 //   if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {

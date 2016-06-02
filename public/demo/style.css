@@ -31,7 +31,7 @@ body {
   max-width: 380px;
 }
 
-.card, .card .card-visible, .card .card-spacer {
+.layer, .card, .card .card-visible, .card .card-spacer {
   -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
   transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
 }
@@ -98,7 +98,7 @@ body {
   /*opacity: 0.4;*/
 }
 
-.card.removed {
+.layer.removed, .card.removed {
   -moz-transform: scale(0.01);
   -webkit-transform: scale(0.01);
   -o-transform: scale(0.01);
