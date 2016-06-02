@@ -5,6 +5,10 @@ body {
   color: #333;
 }
 
+a:focus {
+  outline: 0;
+}
+
 .logo {
   text-align: center;
   background: #ddd;
