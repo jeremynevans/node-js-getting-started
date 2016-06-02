@@ -194,6 +194,9 @@ $(".cards").on("click", "i.close", function(){
 $('.cards').on('beforeChange', '.card-carousel', function(event, slick, currentSlide, nextSlide){
   var layer = getLayerNumber($(this));
   highlightLink(layer, nextSlide);
+
+  var scrollPos = cardDOM.offset().top + cardDOM.find('.card').height() - document.body.clientHeight + 20;
+  $('html,body').stop().animate({scrollTop: scrollPos},'medium');
 });
 
 var highlightLink = function(layer, slide) {
