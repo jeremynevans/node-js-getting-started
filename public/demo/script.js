@@ -149,8 +149,9 @@ var focusLayer = function(layer) {
   $('#layer-' + layer).slick('slickSetOption', 'swipe', true);
 }
 
-var openCard = function(keys) {
-  console.log(keys);
+var layerGoToSlide = function(slide) {
+  var layer = layers - 1;
+  $('#layer-' + layer).slick('slickGoTo', slide);
 }
 
 
@@ -199,7 +200,7 @@ $(".cards").on("click", "a", function(){
   if (layer == layers) {
     openLayer(layer, allKeys, slide, slideFrom, -1);
   } else {
-    $('#layer-' + layer).slick('slickGoTo', slide);
+    layerGoToSlide(slide);
   }
 });
 $(".cards").on("click", "i.close", function(){
@@ -209,8 +210,13 @@ $(".cards").on("click", "i.close", function(){
 });
 $(".cards").on("click", ".card", function(){
   if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
-    // layer = getLayerNumber($(this));
-    closeLayer(layers-1);
+    var layer = getLayerNumber($(this));
+    if (layer == layers-1) {
+      var slide = $(this).index();
+      layerGoToSlide(slide);
+    } else {
+      closeLayer(layers-1);
+    }
   }
 });
 
