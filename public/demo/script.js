@@ -120,7 +120,6 @@ var openLayer = function(layer, keys, slide, slideFrom) {
   ongoingKeyCounter++;
 
   $('.card').removeClass('opening');
-  highlightLink(layer, slide);
   focusLayer(layer);
 }
 
@@ -136,6 +135,7 @@ var closeLayer = function(layer) {
 
 var focusLayer = function(layer) {
   var slide = getLayerCurrentCard(layer);
+  highlightLink(layer, slide);
   scrollToCard(layer, slide);
   var slideFrom = $('#layer-' + layer).attr('slide-from');
   var slideFromN = parseInt(slideFrom) + 1;
@@ -149,8 +149,7 @@ var focusLayer = function(layer) {
   $('#layer-' + layer).slick('slickSetOption', 'swipe', true);
 }
 
-var layerGoToSlide = function(slide) {
-  var layer = layers - 1;
+var layerGoToSlide = function(layer, slide) {
   $('#layer-' + layer).slick('slickGoTo', slide);
 }
 
@@ -170,16 +169,10 @@ var getLayerCurrentCard = function(layer) {
 
 var scrollToCard = function(layer, slide) {
   if (layer > 0) {
-    console.log(layer, slide);
     var slideN = parseInt(slide) + 1;
     var cardDOM = $('#layer-' + layer).find('.card:nth-child(' + slideN + ')');
-    console.log(cardDOM);
     var scrollPos = cardDOM.offset().top + cardDOM.height() - document.body.clientHeight + 30;
-    console.log(cardDOM.offset().top);
-    console.log(cardDOM.height());
-    console.log(document.body.clientHeight);
     $('html,body').stop().animate({scrollTop: scrollPos},'medium');
-    console.log(scrollPos);
   }
 }
 
@@ -197,10 +190,10 @@ $(".cards").on("click", "a", function(){
     allKeys.push($(link).attr('href').substring(1));
   });
   layer++;
-  if (layer == layers) {
+  if (layer ==  layers) {
     openLayer(layer, allKeys, slide, slideFrom, -1);
   } else {
-    layerGoToSlide(slide);
+    layerGoToSlide(layer, slide);
   }
 });
 $(".cards").on("click", "i.close", function(){
@@ -209,13 +202,20 @@ $(".cards").on("click", "i.close", function(){
   closeLayer(layer);
 });
 $(".cards").on("click", ".card", function(){
+  var layer = getLayerNumber($(this));
+  var targetLayer = layer + 1;
   if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
-    var layer = getLayerNumber($(this));
+    targetLayer--;
     if (layer == layers-1) {
-      var slide = $(this).index();
-      layerGoToSlide(slide);
-    } else {
-      closeLayer(layers-1);
+      var slide = $(this).closest('.card').index();
+      layerGoToSlide(layer, slide);
+    }
+  }
+  console.log(targetLayer, layers);
+  if (targetLayer < layers - 1) {
+    for (i = layers - 1; i > targetLayer; i--) {
+      console.log(targetLayer, layers);
+      closeLayer(i);
     }
   }
 });
