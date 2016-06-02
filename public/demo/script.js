@@ -139,9 +139,14 @@ var focusLayer = function(layer) {
   var slideFrom = $('#layer-' + layer).attr('slide-from');
   slideFrom++;
   console.log(slideFrom);
-  $('#layer-' + (layer-1)).find('.card').addClass('removed');
-  $('#layer-' + (layer-1)).find('.card:nth-child(' + slideFrom + ')').removeClass('removed');
+  if (layer > 1) {
+    var prevLayer = layer - 1;
+    $('#layer-' + prevLayer).find('.card').addClass('removed');
+    $('#layer-' + prevLayer).find('.card:nth-child(' + slideFrom + ')').removeClass('removed');
+    $('#layer-' + prevLayer).slick('slickSetOption', 'swipe', false);
+  }
   $('#layer-' + layer).find('.card').removeClass('removed');
+  $('#layer-' + layer).slick('slickSetOption', 'swipe', true);
 }
 
 var openCard = function(keys) {
