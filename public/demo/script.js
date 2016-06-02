@@ -41,7 +41,7 @@ window.setTimeout(function() {
     //   $('.card').removeClass('opening');
     // }, 300);
   // }
-}, 300);
+}, 30000);
 
 
 var cardTemplate = function (id, title, body, image, topic, showHeaderImage, standalone) {
