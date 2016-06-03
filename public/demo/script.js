@@ -14,7 +14,7 @@ if (getParameterByName('db') == 'true') {
    }).done(function(json) {
      cards = json;
      for (i=0; i<cards.length; i++) {
-       cards[i].id = i;
+       cards[i].id = cards[i]['@id'];
        cards[i].title = cards[i].name;
        cards[i].body = cards[i].description;
      }
