@@ -346,10 +346,19 @@ $( window ).resize(function() {
 
 if (getParameterByName('editing') == 'true') {
   addStyleString('.card:hover .edit-button { display: block; }');
+  window.parent.setUpdateCallback(tellMeToUpdate);
 }
 
 
-window.parent.postMessage({updateFunction: tellMeToUpdate}, "*");
+function updateCard(uri) {
+ $.ajax({
+   url: uri
+ }).done(function(json) {
+
+ });
+}
+
+
 
 
 function getParameterByName(name, url) {
