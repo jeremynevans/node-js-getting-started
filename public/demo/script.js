@@ -358,7 +358,8 @@ function updateCard(uri) {
  $.ajax({
    url: uri
  }).done(function(json) {
-  //  $('#' + uri).find()
+  //  $('#' + uri).find('h2').html(json.name);
+   $('#' + uri).find('.body-content p').html(json.description);
  });
 }
 
