@@ -244,6 +244,11 @@ $(".cards").on("click", ".card .edit-button", function(){
   window.parent.postMessage({action: 'edit', id: key}, "*");
 });
 
+var tellMeToUpdate = function(key) {
+  console.log('update: ' + key);
+  $('body').append(key);
+}
+
 
 // On before slide change
 $('.cards').on('beforeChange', '.card-carousel', function(event, slick, currentSlide, nextSlide){
@@ -344,7 +349,7 @@ if (getParameterByName('editing') == 'true') {
 }
 
 
-
+window.parent.postMessage({updateFunction: tellMeToUpdate}, "*");
 
 
 function getParameterByName(name, url) {
