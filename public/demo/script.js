@@ -14,7 +14,7 @@ if (getParameterByName('db') == 'true') {
    }).done(function(json) {
      cards = json;
      for (i=0; i<cards.length; i++) {
-       cards[i].id = cards[i]['@id'];
+       cards[i].key = cards[i]['@id'];
        cards[i].title = cards[i].name;
        cards[i].body = cards[i].description;
      }
@@ -61,12 +61,12 @@ if (getParameterByName('db') == 'true') {
 }
 
 
-var cardTemplate = function (id, title, body, image, topic, showHeaderImage, standalone) {
+var cardTemplate = function (key, title, body, image, topic, showHeaderImage, standalone) {
   if (!image) {
     image = '//placekitten.com/300/200';
   }
   var standaloneClass = standalone ? ' standalone' : '';
-  var template =  '<div class="card opening' + standaloneClass + '" id="' + id + '" style="height: auto;">'
+  var template =  '<div class="card opening' + standaloneClass + '" data-uri="' + key + '" style="height: auto;">'
   +                 '<div class="card-visible">';
     // +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -94,22 +94,13 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage, sta
   return template;
 };
 
-// DOM Requests
-var getKeyFromCardDOM = function(list, pos) { // Doesn't select list yet
-  return $('.cards .card:not(.removed):eq(' + pos + ')').attr('id').split('-')[1];
-}
-var getPosition = function(cardDOM) {
-  return $('.card:not(.removed)').index(cardDOM);
-}
-
-
 var openLayer = function(layer, keys, slide, slideFrom) {
   $('.layer i.close').hide();
   $('.layer a').removeClass('active');
   var template = '';
   $.each(keys, function(i, key) {
     var card = cards[key];
-    template = template + cardTemplate(card.id, card.title, card.body, card.coverImage, card.topic, card.headline);
+    template = template + cardTemplate(card.key, card.title, card.body, card.coverImage, card.topic, card.headline);
   });
   var slideFromAttr = slideFrom!=-1 ? 'slide-from="' + slideFrom + '"' : '';
   template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '"' + slideFromAttr + '>' + template + '</div>';
@@ -174,7 +165,7 @@ var layerGoToSlide = function(layer, slide) {
 
 
 var getLayerNumber = function(layerDOM) {
-  var layer = parseInt(layerDOM.closest('.layer').attr('id').split('-')[1]);
+  var layer = parseInt(layerDOM.closest('.layer').attr('data-uri').split('-')[1]);
   return layer;
 }
 
@@ -239,15 +230,10 @@ $(".cards").on("click", ".card", function(){
   }
 });
 $(".cards").on("click", ".card .edit-button", function(){
-  var key = $(this).closest('.card').attr('id');
+  var key = $(this).closest('.card').attr('data-uri');
   console.log(key);
   window.parent.postMessage({action: 'edit', id: key}, "*");
 });
-
-var tellMeToUpdate = function(key) {
-  console.log('update: ' + key);
-  $('body').append(key);
-}
 
 
 // On before slide change
@@ -349,18 +335,21 @@ if (getParameterByName('editing') == 'true') {
   window.addEventListener('message', function(event) {
        if (event.data.action = "update")
         //  alert(event.data.id);
-        tellMeToUpdate(event.data.id);
+        updateCard(event.data.id);
      }, false);
 }
 
 
 function updateCard(uri) {
- $.ajax({
-   url: uri
- }).done(function(json) {
-  //  $('#' + uri).find('h2').html(json.name);
-   $('#' + uri).find('.body-content p').html(json.description);
- });
+  $.ajax({
+    url: uri
+  }).done(function(json) {
+    console.log(json);
+    $('.card[data-uri="' + uri + '"]').find('.header-image img').html(json.image);
+    $('.card[data-uri="' + uri + '"]').find('.header-image h3').html(json.name);
+    $('.card[data-uri="' + uri + '"]').find('h2').html(json.name);
+    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(json.description);
+  });
 }
 
 
