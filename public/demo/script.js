@@ -165,7 +165,7 @@ var layerGoToSlide = function(layer, slide) {
 
 
 var getLayerNumber = function(layerDOM) {
-  var layer = parseInt(layerDOM.closest('.layer').attr('data-uri').split('-')[1]);
+  var layer = parseInt(layerDOM.closest('.layer').attr('id').split('-')[1]);
   return layer;
 }
 
