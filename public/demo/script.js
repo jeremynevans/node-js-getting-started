@@ -66,7 +66,7 @@ var cardTemplate = function (id, title, body, image, topic, showHeaderImage, sta
     image = '//placekitten.com/300/200';
   }
   var standaloneClass = standalone ? ' standalone' : '';
-  var template =  '<div class="card opening' + standaloneClass + '" id="card-' + id + '" style="height: auto;">'
+  var template =  '<div class="card opening' + standaloneClass + '" id="' + id + '" style="height: auto;">'
   +                 '<div class="card-visible">';
     // +                   '<div class="card-grey"><div></div></div>';
   if (showHeaderImage) {
@@ -239,7 +239,7 @@ $(".cards").on("click", ".card", function(){
   }
 });
 $(".cards").on("click", ".card .edit-button", function(){
-  var key = $(this).closest('.card').attr('id').split('-')[1];
+  var key = $(this).closest('.card').attr('id');
   console.log(key);
   window.parent.postMessage({action: 'edit', id: key}, "*");
 });

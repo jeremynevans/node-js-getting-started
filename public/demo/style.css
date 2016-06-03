@@ -121,9 +121,9 @@ a:focus {
   z-index: 30;
   position: relative;
   float: right;
-  top: 8px;
+  top: 6px;
   color: #bbb;
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 .card .card-visible > i.close:active {
