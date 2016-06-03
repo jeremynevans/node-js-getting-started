@@ -346,7 +346,11 @@ $( window ).resize(function() {
 
 if (getParameterByName('editing') == 'true') {
   addStyleString('.card:hover .edit-button { display: block; }');
-  window.parent.setUpdateCallback(tellMeToUpdate);
+  window.addEventListener('message', function(event) {
+       if (event.data.action = "update")
+        //  alert(event.data.id);
+        tellMeToUpdate(event.data.id);
+     }, false);
 }
 
 
@@ -354,7 +358,7 @@ function updateCard(uri) {
  $.ajax({
    url: uri
  }).done(function(json) {
-
+  //  $('#' + uri).find()
  });
 }
 
