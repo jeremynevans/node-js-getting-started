@@ -224,7 +224,7 @@ $(".cards").on("click", ".card", function(){
 $(".cards").on("click", ".card .edit-button", function(){
   var key = $(this).closest('.card').attr('id').split('-')[1];
   console.log(key);
-  window.parent.postMessage({action: 'edit', id: key});
+  window.parent.postMessage({action: 'edit', id: key}, "*");
 });
 
 
