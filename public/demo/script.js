@@ -5,7 +5,7 @@ var tempCards;
 var waitingForDoctop = true;
 
 $.doctop({
-  url: '//docs.google.com/document/d/1L_yGS9DQeCCY49MIVVpuB4Vaiz6o7P3BnEbcYqox10A/pub',
+  url: '//docs.google.com/document/d/1AkZzRKeVMWA2LDv3pCk4KCR6ztKtdCMjrxvYycYABr0/pub',
   archieml: true,
   callback: function(d){
     if (waitingForDoctop) {
