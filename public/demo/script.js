@@ -17,7 +17,7 @@ $.doctop({
           cards[tempCards[i].id] = tempCards[i];
         }
       }
-      openCard(0, null);
+      // openCard(0, null);
     }
   }
 });
