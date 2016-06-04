@@ -10,7 +10,7 @@ var temp;
 
 if (getParameterByName('db') == 'true') {
   $.ajax({
-     url: "http://explaain-api-develop.herokuapp.com/Person/search"
+     url: "//explaain-api-develop.herokuapp.com/Person/search"
    }).done(function(json) {
      cards = json;
      for (i=0; i<cards.length; i++) {
@@ -115,7 +115,7 @@ var openLayer = function(layer, keys, slide, slideFrom) {
 
   // $('#' + (ongoingKeyCounter-1)).slick('unslick');
   $('.layer-id-' + ongoingKeyCounter).slick({
-    dots: false,
+    dots: true,
     infinite: false,
     adaptiveHeight: true,
     centerMode: true,
@@ -154,9 +154,11 @@ var focusLayer = function(layer) {
     $('#layer-' + prevLayer).find('.card').addClass('removed');
     $('#layer-' + prevLayer).find('.card:nth-child(' + slideFromN + ')').removeClass('removed');
     $('#layer-' + prevLayer).slick('slickSetOption', 'swipe', false);
+    // $('#layer-' + prevLayer).slick('slickSetOption', 'dots', false);
   }
   $('#layer-' + layer).find('.card').removeClass('removed');
   $('#layer-' + layer).slick('slickSetOption', 'swipe', true);
+  // $('#layer-' + layer).slick('slickSetOption', 'dots', true);
 }
 
 var layerGoToSlide = function(layer, slide) {
