@@ -12,8 +12,8 @@ body {
 .logo img {
   position: relative;
   margin: auto;
-  width: 100%;
-  max-width: 300px;
+  width: 80%;
+  max-width: 150px;
   margin: 20px 0;
 }
 
