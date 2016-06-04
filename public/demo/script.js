@@ -135,7 +135,9 @@ var openCard = function(cardToOpen, positionFrom) {
   } else {
     // moveCard(0, existingCardPos, positionFrom + 1);
   }
-  focusCard(0, positionFrom + 1);
+  window.setTimeout(function() {
+    focusCard(0, positionFrom + 1);
+  }, 1000);
 }
 var closeCard = function(list, cardPos) {
   removeCard(list, cardPos);

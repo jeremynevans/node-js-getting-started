@@ -16,6 +16,9 @@ body {
   max-width: 150px;
   margin: 20px 0;
 }
+a:hover .logo img {
+  opacity: 0.7;
+}
 
 .cards {
   margin: 0 auto;
