@@ -17,7 +17,7 @@ $.doctop({
           cards[tempCards[i].id] = tempCards[i];
         }
       }
-      // openCard(0, null);
+      openCard(0, null);
     }
   }
 });
@@ -133,9 +133,9 @@ var openCard = function(cardToOpen, positionFrom) {
   if (existingCardPos == -1) {
     addCard(0, cardToOpen, positionFrom + 1);
   } else {
-    moveCard(0, existingCardPos, positionFrom + 1);
+    // moveCard(0, existingCardPos, positionFrom + 1);
   }
-    focusCard(0, positionFrom + 1);
+  focusCard(0, positionFrom + 1);
 }
 var closeCard = function(list, cardPos) {
   removeCard(list, cardPos);
