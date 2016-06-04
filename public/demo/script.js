@@ -274,3 +274,11 @@ $( window ).resize(function() {
     $(this).find('.card-visible').css({ 'width': $(this).find('.card-spacer').css('width') });
   });
 });
+
+
+
+window.addEventListener('message', function(event) {
+     if (event.data.action = "open")
+      //  alert(event.data.id);
+      openCard(event.data.id);
+   }, false);
