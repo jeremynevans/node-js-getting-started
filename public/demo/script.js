@@ -115,7 +115,7 @@ var openLayer = function(layer, keys, slide, slideFrom) {
 
   // $('#' + (ongoingKeyCounter-1)).slick('unslick');
   $('.layer-id-' + ongoingKeyCounter).slick({
-    dots: true,
+    dots: false,
     infinite: false,
     adaptiveHeight: true,
     centerMode: true,
