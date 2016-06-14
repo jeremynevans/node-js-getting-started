@@ -151,7 +151,7 @@ h2 {
   height: 0;
 }
 
-@media (min-width: 568px) {
+/*@media (min-width: 568px) {*/
   .body-content a:hover {
     color: white;
     background: #ff6e73;
@@ -176,4 +176,4 @@ h2 {
   .card.faded .card-grey:hover > div {
     background: rgba(255,255,255,0.1);
   }
-}
+/*}*/
