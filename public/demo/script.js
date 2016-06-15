@@ -77,6 +77,7 @@ var getPosition = function(cardDOM) {
 var focusCardDOM = function(position) {
   // console.log('focusCardDOM', position);
   var cardDOM = $('.cards .card:not(.removed):eq(' + position + ')');
+
   $('.card').addClass('faded').removeClass('opening');
   cardDOM.removeClass('faded');
   $('.card .card-visible').each(function() {
@@ -100,6 +101,7 @@ var addCardDOM = function(list, cardKey, position) {
   }
   window.setTimeout(function() {
     cardDOM.find('.card-spacer').css('height', cardDOM.find('.card-visible').height()/1.5);
+
     focusCard(0, position);
   }, 100);
   reDrawIfOutOfSync();
@@ -120,22 +122,26 @@ var setZValues = function() { // Doesn't yet handle multiple lists
     var zValue = 1000 - Math.abs(i - focusPosition[0]);
     var zScale = 1 - Math.pow(0.6, Math.abs(i - focusPosition[0]));
     $(card).find('.card-visible').css({'z-index': zValue, 'transform': 'scale(' + (1 - zScale/4) + ',' + (1 - zScale/4) + ')'});
-    $(card).find('.card-grey').css('background', 'rgba(221,221,221,' + zScale + ')');
+    $(card).find('.card-grey').css('background', 'rgba(238,238,238,' + zScale + ')');
   });
 }
 
 // Top-level commands (data manipulation which relies on Specific Card Functions)
 var openCard = function(cardToOpen, positionFrom) {
+
   if (positionFrom == null || positionFrom < 0) {
+
     positionFrom = cardLists[0].length - 1;
   }
   var existingCardPos = cardLists[0].indexOf(cardToOpen);
+
   if (existingCardPos == -1) {
     addCard(0, cardToOpen, positionFrom + 1);
   } else {
     // moveCard(0, existingCardPos, positionFrom + 1);
   }
   window.setTimeout(function() {
+
     focusCard(0, positionFrom + 1);
   }, 1000);
 }
@@ -280,7 +286,10 @@ $( window ).resize(function() {
 
 
 window.addEventListener('message', function(event) {
-     if (event.data.action = "open")
+
+    if (event.data.action == "open") {
       //  alert(event.data.id);
+
       openCard(event.data.id);
-   }, false);
+    }
+  }, false);
