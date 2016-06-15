@@ -129,6 +129,11 @@ var setZValues = function() { // Doesn't yet handle multiple lists
 // Top-level commands (data manipulation which relies on Specific Card Functions)
 var openCard = function(cardToOpen, positionFrom) {
 
+  if (cards[cardToOpen] == undefined ) {
+    console.log('Card not found');
+    return;
+  }
+
   if (positionFrom == null || positionFrom < 0) {
 
     positionFrom = cardLists[0].length - 1;
