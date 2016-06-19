@@ -204,7 +204,11 @@ var deleteCard = function(list, pos) {
 
 
 //UI Interaction
-$(".cards").on("click", "a", function(){
+$(".cards").on("click", "a", function(e){
+  e.stopPropagation();
+  if ($(this).attr('href')[0] != '#') {
+    console.log('hi');
+  }
   var cardToOpen = $(this).attr('href').substring(1); //Key of card to open
   var position = getPosition($(this).parents('.card')[0]);
   openCard(cardToOpen, position);
