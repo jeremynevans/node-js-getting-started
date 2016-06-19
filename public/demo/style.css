@@ -25,6 +25,13 @@ a:hover .logo img {
   max-width: 350px;
 }
 
+.intro-hint {
+  padding: 0 40px;
+  line-height: 1.7;
+  text-align: center;
+  color: #bbb;
+}
+
 .card, .card .card-visible, .card .card-spacer {
   -webkit-transition: -webkit-transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s; /* Safari */
   transition: transform 0.5s, height 0.5s, margin 0.5s, opacity 0.5s;
