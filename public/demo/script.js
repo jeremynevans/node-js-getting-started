@@ -4,8 +4,13 @@ var focusPosition = [];
 var tempCards;
 var waitingForDoctop = true;
 
+var docUrl = '//docs.google.com/document/d/1AkZzRKeVMWA2LDv3pCk4KCR6ztKtdCMjrxvYycYABr0/pub';
+if (getParameterByName('source') == 'pressrelease') {
+  docUrl = '//docs.google.com/document/d/1SNQGTnseNDdKiYaHdO37ib8Kxi6fVJIOlFPzcFxfOk0/pub';
+}
+
 $.doctop({
-  url: '//docs.google.com/document/d/1AkZzRKeVMWA2LDv3pCk4KCR6ztKtdCMjrxvYycYABr0/pub',
+  url: docUrl,
   archieml: true,
   callback: function(d){
     if (waitingForDoctop) {
