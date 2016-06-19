@@ -158,29 +158,4 @@ h2 {
   height: 0;
 }
 
-/*@media (min-width: 568px) {*/
-  .body-content a:hover {
-    color: white;
-    background: #ff6e73;
-    border: 2px solid #ff6e73;
-  }
-  .card .card-visible > i.close {
-    opacity: 0;
-  }
-  .card .card-visible:hover > i.close {
-    opacity: 1;
-  }
-  .card .card-visible > i.close:hover {
-    color: #ff6e73;
-    cursor: pointer;
-  }
-  .card.faded .card-grey > div {
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    background: rgba(255,255,255,0);
-  }
-  .card.faded .card-grey:hover > div {
-    background: rgba(255,255,255,0.1);
-  }
-/*}*/
+/* .body-content a:hover { color: white; background: #ff6e73; border: 2px solid #ff6e73; } .card .card-visible > i.close { opacity: 0; } .card .card-visible:hover > i.close { opacity: 1; } .card .card-visible > i.close:hover { color: #ff6e73; cursor: pointer; } .card.faded .card-grey > div { cursor: pointer; width: 100%; height: 100%; background: rgba(255,255,255,0); } .card.faded .card-grey:hover > div { background: rgba(255,255,255,0.1); } */
