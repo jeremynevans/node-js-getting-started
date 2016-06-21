@@ -12,14 +12,32 @@ if (getParameterByName('db') == 'true') {
   $.ajax({
      url: "//explaain-api-develop.herokuapp.com/Person/search"
    }).done(function(json) {
-     cards = json;
-     for (i=0; i<cards.length; i++) {
-       cards[i].key = cards[i]['@id'];
-       cards[i].title = cards[i].name;
-       cards[i].body = cards[i].description;
+    //  cards = json;
+     for (var i in json) {
+       var key = json[i]['@id'];
+       cards[key] = json[i];
+       cards[key].key = cards[key]['@id'];
+       cards[key].title = cards[key].name;
+       cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
      }
+     console.log(json);
      console.log(cards);
-     openLayer(0, [0], 0, -1);
+     openLayer(0, [json[0]['@id']], 0, -1);
+   });
+  $.ajax({
+     url: "//explaain-api-develop.herokuapp.com/Detail/search"
+   }).done(function(json) {
+    //  cards = json;
+     for (var i in json) {
+       var key = json[i]['@id'];
+       cards[key] = json[i];
+       cards[key].key = cards[key]['@id'];
+       cards[key].title = cards[key].name;
+       cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+     }
+     console.log(json);
+     console.log(cards);
+    //  openLayer(0, [0], 0, -1);
    });
 } else {
 
@@ -201,6 +219,7 @@ $(".cards").on("click", "a", function(){
   $.each($(this).closest('.body-content').find('a'), function(i, link) {
     allKeys.push($(link).attr('href').substring(1));
   });
+  console.log(allKeys);
   layer++;
   if (layer ==  layers) {
     openLayer(layer, allKeys, slide, slideFrom, -1);
@@ -371,4 +390,16 @@ function addStyleString(str) {
     var node = document.createElement('style');
     node.innerHTML = str;
     document.body.appendChild(node);
+}
+
+var insertMarkdownLinks = function(text, links) {
+  var i = 0;
+  text = text.replace(/\[(.+?)\]/g, function($1) {
+    var linkText = $1.replace(/[\[\]]/g, '');
+    var href = (links && links[i]) ? links[i] : '';
+    var link = '<a href="#'+href+'">'+linkText+'</a>';
+    i++;
+    return link;
+  });
+  return text;
 }
