@@ -235,7 +235,7 @@ $(".cards").on("click", "i.close", function(){
 $(".cards").on("click", ".card", function(){
   var layer = getLayerNumber($(this));
   var targetLayer = layer + 1;
-  if(!$(event.target).is("a") && !$(event.target).is("i.close") ) {
+  if(!$(event.target).is("a") && !$(event.target).is("i.close") && !$(event.target).is(".edit-button") && !$(event.target).is(".edit-button i") ) {
     targetLayer--;
     if (layer == layers-1) {
       var slide = $(this).closest('.card').index();
