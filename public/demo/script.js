@@ -419,3 +419,9 @@ var insertMarkdownLinks = function(text, links) {
 var parseMarkdown = function(text) {
   return markdown.toHTML(text);
 }
+
+
+if (getParameterByName('touchscreen') != 'true') {
+  console.log('h');
+  $('body').addClass('desktop');
+}

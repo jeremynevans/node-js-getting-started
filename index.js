@@ -17,9 +17,18 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
+
 /* Temporary? */
 app.get('/demo', function(request, response) {
-  response.render('pages/demo');
+  var MobileDetect = require('mobile-detect'),
+      md = new MobileDetect(request.headers['user-agent']);
+      if (md.mobile() == null && md.tablet() == null) {
+        var touchscreen = false;
+      } else {
+        var touchscreen = true;
+      }
+
+  response.render('pages/demo', { touchscreen : touchscreen });
 });
 
 app.get('/hello.html', function(request, response) {
