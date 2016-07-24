@@ -19,6 +19,7 @@ if (getParameterByName('db') == 'true') {
        cards[key].key = cards[key]['@id'];
        cards[key].title = cards[key].name;
       //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+        console.log(key);
        cards[key].body = parseMarkdown(cards[key].description);
      }
      console.log(json);
@@ -396,7 +397,7 @@ function updateCard(uri) {
     $('.card[data-uri="' + uri + '"]').find('.header-image img').html(json.image);
     $('.card[data-uri="' + uri + '"]').find('.header-image h3').html(json.name);
     $('.card[data-uri="' + uri + '"]').find('h2').html(json.name);
-    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(parseMarkdown(json.description, json.links));
+    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(parseMarkdown(json.description));
   });
 }
 
@@ -419,6 +420,7 @@ function addStyleString(str) {
     document.body.appendChild(node);
 }
 
+//This is probably now unnecessary
 var insertMarkdownLinks = function(text, links) {
   var i = 0;
   text = text.replace(/\[(.+?)\]/g, function($1) {
@@ -433,6 +435,7 @@ var insertMarkdownLinks = function(text, links) {
 
 
 var parseMarkdown = function(text) {
+  console.log(text);
   return markdown.toHTML(text);
 }
 
