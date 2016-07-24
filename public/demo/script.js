@@ -41,6 +41,22 @@ if (getParameterByName('db') == 'true') {
      console.log(cards);
     //  openLayer(0, [0], 0, -1);
    });
+  $.ajax({
+     url: "//explaain-api-develop.herokuapp.com/Organization/search"
+   }).done(function(json) {
+    //  cards = json;
+     for (var i in json) {
+       var key = json[i]['@id'];
+       cards[key] = json[i];
+       cards[key].key = cards[key]['@id'];
+       cards[key].title = cards[key].name;
+      //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+      cards[key].body = parseMarkdown(cards[key].description);
+     }
+     console.log(json);
+     console.log(cards);
+    //  openLayer(0, [0], 0, -1);
+   });
 } else {
 
   $.doctop({
