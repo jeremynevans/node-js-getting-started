@@ -18,7 +18,8 @@ if (getParameterByName('db') == 'true') {
        cards[key] = json[i];
        cards[key].key = cards[key]['@id'];
        cards[key].title = cards[key].name;
-       cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+      //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+       cards[key].body = parseMarkdown(cards[key].description);
      }
      console.log(json);
      console.log(cards);
@@ -33,7 +34,8 @@ if (getParameterByName('db') == 'true') {
        cards[key] = json[i];
        cards[key].key = cards[key]['@id'];
        cards[key].title = cards[key].name;
-       cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+      //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
+      cards[key].body = parseMarkdown(cards[key].description);
      }
      console.log(json);
      console.log(cards);
@@ -113,12 +115,15 @@ var cardTemplate = function (key, title, body, image, topic, showHeaderImage, st
 };
 
 var openLayer = function(layer, keys, slide, slideFrom) {
+  console.log(keys);
   $('.layer i.close').hide();
   $('.layer a').removeClass('active');
   var template = '';
   $.each(keys, function(i, key) {
     var card = cards[key];
-    template = template + cardTemplate(card.key, card.title, card.body, card.coverImage, card.topic, card.headline);
+    if (card) {
+      template = template + cardTemplate(card.key, card.title, card.body, card.coverImage, card.topic, card.headline);
+    }
   });
   var slideFromAttr = slideFrom!=-1 ? 'slide-from="' + slideFrom + '"' : '';
   template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '"' + slideFromAttr + '>' + template + '</div>';
@@ -210,14 +215,15 @@ var scrollToCard = function(layer, slide) {
 
 
 //UI Interaction
-$(".cards").on("click", "a", function(){
+$(".cards").on("click", "a", function(event){
+  event.preventDefault();
   var slide = $(this).index();
   var slideFrom = $(this).closest('.card').index();//.slick('slickCurrentSlide');
   temp = $(this).closest('.layer > div');
   var layer = getLayerNumber($(this));
   var allKeys = [];
   $.each($(this).closest('.body-content').find('a'), function(i, link) {
-    allKeys.push($(link).attr('href').substring(1));
+    allKeys.push($(link).attr('href'));//.substring(1));
   });
   console.log(allKeys);
   layer++;
@@ -369,7 +375,7 @@ function updateCard(uri) {
     $('.card[data-uri="' + uri + '"]').find('.header-image img').html(json.image);
     $('.card[data-uri="' + uri + '"]').find('.header-image h3').html(json.name);
     $('.card[data-uri="' + uri + '"]').find('h2').html(json.name);
-    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(insertMarkdownLinks(json.description, json.links));
+    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(parseMarkdown(json.description, json.links));
   });
 }
 
@@ -402,4 +408,9 @@ var insertMarkdownLinks = function(text, links) {
     return link;
   });
   return text;
+}
+
+
+var parseMarkdown = function(text) {
+  return markdown.toHTML(text);
 }
