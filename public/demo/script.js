@@ -397,7 +397,8 @@ function updateCard(uri) {
     $('.card[data-uri="' + uri + '"]').find('.header-image img').html(json.image);
     $('.card[data-uri="' + uri + '"]').find('.header-image h3').html(json.name);
     $('.card[data-uri="' + uri + '"]').find('h2').html(json.name);
-    $('.card[data-uri="' + uri + '"]').find('.body-content p').html(parseMarkdown(json.description));
+    console.log(json.description);
+    $('.card[data-uri="' + uri + '"]').find('.body-content').html(parseMarkdown(json.description));
   });
 }
 
