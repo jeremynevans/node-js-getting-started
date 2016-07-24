@@ -69,6 +69,7 @@ a:focus {
   /*width: 100%;*/
   /*margin: 0 5px;*/
   /*max-width: 340px;*/
+  min-height: 120px;
   border-radius: 15px;
   overflow: hidden;
   opacity: 1;

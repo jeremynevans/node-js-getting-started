@@ -121,9 +121,14 @@ var openLayer = function(layer, keys, slide, slideFrom) {
   var template = '';
   $.each(keys, function(i, key) {
     var card = cards[key];
-    if (card) {
-      template = template + cardTemplate(card.key, card.title, card.body, card.coverImage, card.topic, card.headline);
+    if (!card) {
+      card = {
+        key: key,
+        title: 'Card not found!',
+        body: ''
+      };
     }
+    template = template + cardTemplate(card.key, card.title, card.body, card.coverImage, card.topic, card.headline);
   });
   var slideFromAttr = slideFrom!=-1 ? 'slide-from="' + slideFrom + '"' : '';
   template = '<div class="card-carousel layer layer-id-' + ongoingKeyCounter + '" id="layer-' + layer + '"' + slideFromAttr + '>' + template + '</div>';
