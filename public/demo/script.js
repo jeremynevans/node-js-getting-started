@@ -188,6 +188,12 @@ var closeLayer = function(layer) {
   focusLayer(prevLayer);
 }
 
+var closeAllLayers = function() {
+  for (i=layers-1; i>=0; i--) {
+    closeLayer(i);
+  }
+}
+
 var focusLayer = function(layer) {
   var slide = getLayerCurrentCard(layer);
   highlightLink(layer, slide);
@@ -382,9 +388,15 @@ $( window ).resize(function() {
 if (getParameterByName('editing') == 'true') {
   addStyleString('.card:hover .edit-button { display: block; }');
   window.addEventListener('message', function(event) {
-       if (event.data.action = "update")
-        //  alert(event.data.id);
-        updateCard(event.data.id);
+       switch (event.data.action) {
+          case "update":
+            updateCard(event.data.id);
+            break;
+          case "preview":
+            closeAllLayers();
+            openLayer(0, [event.data.id], 0, 0);
+            break;
+          }
      }, false);
 }
 
