@@ -8,9 +8,9 @@ var layers = 0;
 var temp;
 
 
-if (getParameterByName('db') == 'true') {
+var importCardsByType = function(type, openFirstCard) {
   $.ajax({
-     url: "//explaain-api-develop.herokuapp.com/Person/search"
+     url: "//explaain-api-develop.herokuapp.com/" + type + "/search"
    }).done(function(json) {
     //  cards = json;
      for (var i in json) {
@@ -24,40 +24,21 @@ if (getParameterByName('db') == 'true') {
      }
      console.log(json);
      console.log(cards);
-     openLayer(0, [json[0]['@id']], 0, -1);
-   });
-  $.ajax({
-     url: "//explaain-api-develop.herokuapp.com/Detail/search"
-   }).done(function(json) {
-    //  cards = json;
-     for (var i in json) {
-       var key = json[i]['@id'];
-       cards[key] = json[i];
-       cards[key].key = cards[key]['@id'];
-       cards[key].title = cards[key].name;
-      //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
-      cards[key].body = parseMarkdown(cards[key].description);
+     if (openFirstCard) {
+       openLayer(0, [json[0]['@id']], 0, -1);
      }
-     console.log(json);
-     console.log(cards);
-    //  openLayer(0, [0], 0, -1);
    });
-  $.ajax({
-     url: "//explaain-api-develop.herokuapp.com/Organization/search"
-   }).done(function(json) {
-    //  cards = json;
-     for (var i in json) {
-       var key = json[i]['@id'];
-       cards[key] = json[i];
-       cards[key].key = cards[key]['@id'];
-       cards[key].title = cards[key].name;
-      //  cards[key].body = insertMarkdownLinks(cards[key].description, cards[key].links);
-      cards[key].body = parseMarkdown(cards[key].description);
-     }
-     console.log(json);
-     console.log(cards);
-    //  openLayer(0, [0], 0, -1);
-   });
+}
+
+
+if (getParameterByName('db') == 'true') {
+  importCardsByType('Detail', false);
+  importCardsByType('Event', false);
+  importCardsByType('Headline', false);
+  importCardsByType('Organization', false);
+  importCardsByType('Person', true);
+  importCardsByType('Place', false);
+
 } else {
 
   $.doctop({
