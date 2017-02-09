@@ -700,6 +700,10 @@ font-size: 18px;
 
 
 @media (max-width: 750px) {
+  .gso {
+    display: none;
+  }
+
   .navbar {
     padding: 0;
     text-align: center;
