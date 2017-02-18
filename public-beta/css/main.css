@@ -402,6 +402,26 @@ a.typeform-share.button {
 .landing-panel img.landing-bot-2 {
   display: none;
 }
+
+.landing-panel .example-demo {
+  float: right;
+  width: 300px;
+  height: 500px;
+  margin-top: -270px;
+  margin-right: 50px;
+  text-align: center;
+}
+.landing-panel .example-demo img {
+  max-width: 100%;
+}
+.landing-panel .example-demo > iframe {
+  position: relative;
+  top: -523px;
+  width: 253px;
+  height: 453px;
+  border: none;
+}
+
 .landing-panel h2 span, .landing-panel h3 span {
   font-weight: normal;
   background: rgba(255,255,255,0.8);
@@ -441,6 +461,9 @@ a.typeform-share.button {
   text-align: center;
   left: 0;
   right: 0;
+}
+.landing-panel h4 > span:nth-child(2) {
+  margin-top: 35px;
 }
 .landing-panel h4 img {
   display: block;

@@ -1,0 +1,33 @@
+html {
+    color: #444;
+    font-size: 1.1em;
+    line-height: 1.4;
+    font-family: 'Lato', sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+nav {
+  padding: 10px;
+  text-align: center;
+  background: #ccc;
+}
+h1 {
+  text-transform: uppercase;
+  font-family: "Times New Roman";
+  color: #666;
+  margin: 0;
+  font-size: 22px;
+}
+
+article {
+  max-width: 600px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+h2 {
+  font-size: 21px;
+}
