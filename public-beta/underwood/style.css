@@ -1,7 +1,7 @@
 html {
     color: #444;
-    font-size: 1.1em;
-    line-height: 1.4;
+    font-size: 0.9em;
+    line-height: 1.5;
     font-family: 'Lato', sans-serif;
 }
 
@@ -15,8 +15,6 @@ nav {
   background: #ccc;
 }
 h1 {
-  text-transform: uppercase;
-  font-family: "Times New Roman";
   color: #666;
   margin: 0;
   font-size: 22px;
@@ -29,5 +27,5 @@ article {
 }
 
 h2 {
-  font-size: 21px;
+  font-size: 18px;
 }

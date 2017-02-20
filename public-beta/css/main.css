@@ -449,7 +449,7 @@ a.typeform-share.button {
   opacity: 0.8;
 }
 .landing-panel h4 {
-  margin: 4em 0 2em 0;
+  margin: 8em 0 2em 0;
   text-align: center;
   font-size: 1.4em;
   font-weight: 400;
@@ -721,11 +721,11 @@ font-size: 18px;
   background: #6354f3;
 }
 
+.gso {
+  display: none !important;
+}
 
 @media (max-width: 750px) {
-  .gso {
-    display: none !important;
-  }
 
   .navbar {
     padding: 0;
