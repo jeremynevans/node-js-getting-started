@@ -47,3 +47,13 @@ function jiggleButton() {
 }
 var myTimeout = 15000;
 window.setTimeout(jiggleButton, myTimeout);
+
+
+
+$("iframe").load(function() {
+  if ($(window).width() < 750) {
+    var frameContents;
+    frameContents = $("iframe.example").contents();
+    frameContents.find("html").css("overflow","hidden");
+  }
+});
