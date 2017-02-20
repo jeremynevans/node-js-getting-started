@@ -413,12 +413,15 @@ a.typeform-share.button {
 }
 .landing-panel .example-demo img {
   max-width: 100%;
+  z-index: 10;
+  position: relative;
+  pointer-events: none;
 }
 .landing-panel .example-demo > iframe {
   position: relative;
-  top: -523px;
-  width: 253px;
-  height: 453px;
+  top: -521px;
+  width: 249px;
+  height: 437px;
   border: none;
 }
 
@@ -448,30 +451,39 @@ a.typeform-share.button {
 .landing-panel a:hover h4 {
   opacity: 0.8;
 }
-.landing-panel h4 {
-  margin: 8em 0 2em 0;
+.landing-panel a.why-should-i {
+  display: block;
+  margin: 8em auto 0 auto;
+  width: 250px;
+}
+.landing-panel a.why-should-i h4 {
   text-align: center;
   font-size: 1.4em;
   font-weight: 400;
   color: #6354f3;
 }
-.landing-panel h4 > span {
+.landing-panel a.why-should-i h4 > span {
+  /*position: absolute;*/
+  /*display: block;*/
+  text-align: center;
+  /*left: 0;*/
+  /*right: 0;*/
+}
+.landing-panel a.why-should-i h4 > span:nth-child(2) {
+  margin-top: 10px;
   position: absolute;
   display: block;
-  text-align: center;
-  left: 0;
-  right: 0;
+  width: 250px;
 }
-.landing-panel h4 > span:nth-child(2) {
-  margin-top: 35px;
-}
-.landing-panel h4 img {
+.landing-panel a.why-should-i h4 img {
+  left: auto;
+  right: auto;
   display: block;
   margin: 0.3em auto;
   width: 25px;
   transition: margin 0.2s;
 }
-.landing-panel h4:hover img {
+.landing-panel a.why-should-i h4:hover img {
   margin-top: 0.5em;
 }
 .landing-panel a.typeform-share.button {
