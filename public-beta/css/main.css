@@ -437,6 +437,9 @@ a.typeform-share.button {
   margin-bottom: 1.5em;
   font-size: 1.3em;
 }
+.landing-panel .example-demo .gradient {
+  display: none;
+}
 .landing-panel a.brexit {
   border-bottom: 6px solid #ea3899;
   color: inherit;
@@ -455,6 +458,7 @@ a.typeform-share.button {
   display: block;
   margin: 8em auto 0 auto;
   width: 250px;
+  height: 90px;
 }
 .landing-panel a.why-should-i h4 {
   text-align: center;
@@ -479,12 +483,12 @@ a.typeform-share.button {
   left: auto;
   right: auto;
   display: block;
-  margin: 0.3em auto;
+  margin: 0.1em auto;
   width: 25px;
   transition: margin 0.2s;
 }
-.landing-panel a.why-should-i h4:hover img {
-  margin-top: 0.5em;
+.landing-panel a.why-should-i:hover h4 img {
+  margin-top: 0.3em;
 }
 .landing-panel a.typeform-share.button {
   font-size: 2.5em;
@@ -502,7 +506,7 @@ a.typeform-share.button {
 }
 
 body > .panel {
-  padding: 2em;
+  padding: 2em 5vw;
   min-height: 100px;
 }
 body > .panel p {
@@ -773,26 +777,27 @@ font-size: 18px;
   }
   .landing-panel .example-demo {
     float: none;
-    height: 156vw;
+    height: 704px;
     overflow: hidden;
-    margin: 4em -30px;
+    margin: 4em -7.5vw;
     width: 100vw;
   }
   .landing-panel .example-demo iframe {
-    width: 83vw;
-    top: -133vw;
     overflow: hidden;
-    height: 131vw;
+    width: 374px;
+    top: -600px;
+    height: 591px;
   }
   .landing-panel .example-demo iframe html {
     overflow: hidden;
   }
   .landing-panel .example-demo .gradient {
+    display: block;
     pointer-events: none;
     z-index: 20;
     position: relative;
-    margin-top: -63vw;
-    height: 22vw;
+    margin-top: -284px;
+    height: 99px;
     background: -webkit-linear-gradient(bottom, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(bottom, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(bottom, rgba(255,255,255,1) 20%, rgba(255,255,255,0) 100%); /* For Firefox 3.6 to 15 */
@@ -813,6 +818,10 @@ font-size: 18px;
   }
   .landing-panel h4 {
     display: none;
+  }
+
+  .landing-panel a.why-should-i {
+    height: 0px;
   }
 
   .panel-third, .panel-half {
@@ -888,6 +897,22 @@ font-size: 18px;
   }
   .brexit-popup button {
     font-size: 5vw;
+  }
+}
+
+@media (max-width: 451px) {
+
+  .landing-panel .example-demo {
+    height: 156vw;
+  }
+  .landing-panel .example-demo iframe {
+    width: 83vw;
+    top: -133vw;
+    height: 131vw;
+  }
+  .landing-panel .example-demo .gradient {
+    margin-top: -63vw;
+    height: 22vw;
   }
 }
 
