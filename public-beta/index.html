@@ -24,6 +24,8 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/transition.min.css">
         <link rel="stylesheet" href="css/popup.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.css">
+        <link href="https://cdn.jsdelivr.net/semantic-ui/2.2.10/components/modal.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
 
         <!-- Latest compiled and minified CSS -->
@@ -40,6 +42,26 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
+        <div class="ui modal">
+          <i class="close icon"></i>
+          <div class="header">
+            UK General Election 2017
+          </div>
+          <div class="description">
+            <div class="ui header">Your country needs YOU.</div>
+            <p></p>
+          </div>
+          <div class="actions">
+            <div class="ui black deny button">
+              Nope
+            </div>
+            <div class="ui positive right labeled icon button">
+              Yep, that's me
+              <i class="checkmark icon"></i>
+            </div>
+          </div>
+        </div>
+
         <div class="navbar">
           <div class="logo">
             <img class="no-reveal" src="img/logo.png" alt="" />
@@ -49,6 +71,22 @@
             <a href="#why-use-explaain" onclick="_gs('event', 'How it works (Header)')"><li>How it works</li></a>
           </ul>
 
+        </div>
+
+        <div class="landing-panel ge2017-panel">
+          <a href="//ge2017.com" target="_blank"><img class="ge2017-image" src="/img/ge2017.gif" alt=""></a>
+          <h2><span class="highlight pink bold">2 million</span> <span>engaged voters</span></h2>
+          <h3><span>We created <a class="highlight pink bold" href="//ge2017.com" target="_blank">GE2017.com</a>, the largest voter advice tool the UK has ever seen.</span></h3>
+          <!-- <img class="landing-bot" src="img/demos/demo-f.gif" alt="" /> -->
+          <!-- <img class="landing-bot-2" src="img/demos/demo-f.gif" alt="" /> -->
+          <!-- <a class="typeform-share button main-button" href="/form" target="_blank">Say hello</a> -->
+          <!-- <a class="typeform-share button main-button" onclick="_gs('event', 'Find out more')" href="http://eepurl.com/bh-wD1" target="_blank">Find out more</a> -->
+          <!-- <a href="#why-use-explaain" class="why-should-i">
+            <h4>
+              <span>Why should I?</span>
+              <span><img class="downarrow no-reveal" src="img/downarrow.png" onclick="_gs('event', 'Why should I?')" alt="" /></span>
+            </h4>
+          </a> -->
         </div>
 
         <div class="landing-panel">
@@ -320,10 +358,12 @@
         <script src="js/vendor/transition.min.js"></script>
         <script src="js/vendor/popup.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/semantic.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.10/components/modal.min.js"></script>
         <script src="https://cdn.jsdelivr.net/scrollreveal.js/3.3.1/scrollreveal.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
-        <script src="http://use.explaain.com/explaain.js"></script>
+        <!-- <script src="http://use.explaain.com/explaain.js"></script> -->
 
 
         <!--GoSquared Tracking-->
