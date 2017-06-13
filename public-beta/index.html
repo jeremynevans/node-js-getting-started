@@ -42,7 +42,7 @@
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-        <div class="ui modal">
+        <!-- <div class="ui modal">
           <i class="close icon"></i>
           <div class="header">
             UK General Election 2017
@@ -60,7 +60,7 @@
               <i class="checkmark icon"></i>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="navbar">
           <div class="logo">
@@ -76,17 +76,11 @@
         <div class="landing-panel ge2017-panel">
           <a href="//ge2017.com" target="_blank"><img class="ge2017-image" src="/img/ge2017.gif" alt=""></a>
           <h2><span class="highlight pink bold">2 million</span> <span>engaged voters</span></h2>
-          <h3><span>We created <a class="highlight pink bold" href="//ge2017.com" target="_blank">GE2017.com</a>, the largest voter advice tool the UK has ever seen.</span></h3>
-          <!-- <img class="landing-bot" src="img/demos/demo-f.gif" alt="" /> -->
-          <!-- <img class="landing-bot-2" src="img/demos/demo-f.gif" alt="" /> -->
-          <!-- <a class="typeform-share button main-button" href="/form" target="_blank">Say hello</a> -->
-          <!-- <a class="typeform-share button main-button" onclick="_gs('event', 'Find out more')" href="http://eepurl.com/bh-wD1" target="_blank">Find out more</a> -->
-          <!-- <a href="#why-use-explaain" class="why-should-i">
-            <h4>
-              <span>Why should I?</span>
-              <span><img class="downarrow no-reveal" src="img/downarrow.png" onclick="_gs('event', 'Why should I?')" alt="" /></span>
-            </h4>
-          </a> -->
+          <h3><span>We created <a class="highlight pink bold" href="//ge2017.com" target="_blank">GE2017.com</a>, the largest voter advice tool the UK has ever seen</span></h3>
+          <form class="email" action="/submit" method="post" enctype="application/x-www-form-urlencoded">
+            <input type="email" name="email" placeholder="Here's my email">
+            <button type="submit" name="submit">Let me know what's next</button>
+          </form>
         </div>
 
         <div class="landing-panel">
@@ -379,6 +373,30 @@
 
         <!--Google Apps for Work verification -->
         <meta name="google-site-verification" content="keflGV1LoE7Of5QslykpsizmBWEeLJJlVkBIFQEReUA" />
+
+        <script type="text/javascript">
+          $('form.email').submit(function() {
+            event.preventDefault();
+            console.log($("form.email input[name=email]").val());
+            $.ajax({
+              url: $("form.email").attr("action"),
+              data: { email: $("form.email input[name=email]").val() },
+              success: function(result) {
+                console.log(result);
+                // $("p#message").html("Hello there " + result.username + "! Number of checkins: " + result.checkIns);
+                $("form.email").hide(500);
+                setTimeout(function() {
+                  $('form.email').html('<p>Thanks for subscribing! Want to say hi? Email <a href="mailto:hi@explaain.com" target="_blank">hi@explaain.com</a></p>')
+                  $("form.email").show(500);
+                },500);
+              },
+              error: function(result) {
+                console.log('hi');
+                $("form.email").prepend('<p style="color:red">Sorry, we couldn\'t process that. Try again?</p>');
+              }
+            });
+          })
+        </script>
 
     </body>
 </html>

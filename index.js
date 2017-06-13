@@ -2,7 +2,19 @@ require('newrelic');
 var cool = require('cool-ascii-faces');
 // var sass = require('node-sass');
 var express = require('express');
+// var router = express.Router();
 var app = express();
+
+var bodyParser = require('body-parser');
+
+var algoliasearch = require('algoliasearch');
+var client = algoliasearch('I2VKMNNAXI', '1a865896c07d9c08f3e2f14736e840bf');
+var index = client.initIndex('emails');
+
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 
 app.set('port', (process.env.PORT || 5000));
@@ -28,6 +40,17 @@ app.get('/hello.html', function(request, response) {
   });
   response.end();
 });
+
+app.get('/submit', function(request, response) {
+  console.log('hi');
+  console.log(request.query);
+  index.addObjects([{email: request.query.email}], function(err, content) {
+    if (err) {
+      console.error(err);
+    }
+    response.json({success: true})
+  });
+})
 
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
