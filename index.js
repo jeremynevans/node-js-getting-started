@@ -44,8 +44,6 @@ app.get('/hello.html', function(request, response) {
 });
 
 app.get('/submit', function(request, response) {
-  console.log('hi');
-  console.log(request.query);
   index.addObjects([{email: request.query.email}], function(err, content) {
     if (err) {
       console.error(err);
