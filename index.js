@@ -6,11 +6,13 @@ var express = require('express');
 var app = express();
 
 var bodyParser = require('body-parser');
+var cors = require('cors')
 
 var algoliasearch = require('algoliasearch');
 var client = algoliasearch('I2VKMNNAXI', '1a865896c07d9c08f3e2f14736e840bf');
 var index = client.initIndex('emails');
 
+app.use(cors())
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
