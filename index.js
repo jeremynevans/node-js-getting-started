@@ -44,7 +44,7 @@ app.get('/hello.html', function(request, response) {
 });
 
 app.get('/submit', function(request, response) {
-  index.addObjects([{email: request.query.email}], function(err, content) {
+  index.addObjects([{email: request.query.email, date: new Date()}], function(err, content) {
     if (err) {
       console.error(err);
     }
