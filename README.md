@@ -4,6 +4,8 @@ This app generates the current landing page at explaain.com
 
 Forked from [heroku/node-js-getting-started](https://github.com/heroku/node-js-getting-started) (Old Readme contents below)
 
+/public-beta is the folder currently in use
+
 
 ---
 # Old Readme Info

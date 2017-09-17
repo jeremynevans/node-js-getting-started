@@ -656,18 +656,25 @@ font-size: 18px;
   margin: -0.2em 0.2em 0 -0.05em;
 }
 
-.panel.media {
+.panel.logos {
+  padding-top: 4em;
   text-align: center;
   /*margin-top: -5em;*/
 }
-.panel.media .publication {
+.panel.media {
+  border-top: 2px solid #eee;
+}
+.panel.partners {
+  padding-bottom: 1em;
+}
+.panel.logos .publication {
   display: inline-block;
   margin: 0 2em 2em 2em;
 }
-.panel.media .publication:hover {
+.panel.logos .publication:hover {
   opacity: 0.7;
 }
-.panel.media img {
+.panel.logos img {
   vertical-align: middle;
   max-width: 200px;
 }
@@ -890,10 +897,10 @@ font-size: 18px;
     padding: 0.3em;
     display: block;
   }
-  .panel.media {
+  .panel.logos {
     margin-top: 0;
   }
-  .panel.media .publication, .panel.media .publication img {
+  .panel.logos .publication, .panel.logos .publication img {
     margin: 0 2em;
   }
 
